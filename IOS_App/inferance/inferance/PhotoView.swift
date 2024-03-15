@@ -8,7 +8,7 @@ import Photos
 struct PhotoView: View {
     var asset: PhotoAsset
     var cache: CachedImageManager?
-    @State private var image: UIImage?
+    @State private var image: Image?
     @State private var imageRequestID: PHImageRequestID?
     @Environment(\.dismiss) var dismiss
     private let imageSize = CGSize(width: 1024, height: 1024)
@@ -16,7 +16,7 @@ struct PhotoView: View {
     var body: some View {
         Group {
             if let image = image {
-                Image(uiImage: image)
+                image
                     .resizable()
                     .scaledToFit()
                     .accessibilityLabel(asset.accessibilityLabel)

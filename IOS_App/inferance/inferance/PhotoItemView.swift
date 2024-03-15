@@ -10,14 +10,14 @@ struct PhotoItemView: View {
     var cache: CachedImageManager?
     var imageSize: CGSize
     
-    @State private var image: UIImage?
+    @State private var image: Image?
     @State private var imageRequestID: PHImageRequestID?
 
     var body: some View {
         
         Group {
             if let image = image {
-                Image(uiImage: image)
+                image
                     .resizable()
                     .scaledToFill()
             } else {

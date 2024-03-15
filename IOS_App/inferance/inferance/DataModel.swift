@@ -11,8 +11,8 @@ final class DataModel: ObservableObject {
     let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
     
     @Published var viewfinderImage: Image?
-    @Published var thumbnailImage: UIImage?
-    @Published var lastCapturedImage: UIImage?
+    @Published var thumbnailImage: Image?
+    @Published var lastCapturedImage: Data?
     
     var isPhotosLoaded = false
     
@@ -45,7 +45,7 @@ final class DataModel: ObservableObject {
             Task { @MainActor in
                 thumbnailImage = photoData.thumbnailImage
             }
-            lastCapturedImage = UIImage(data: photoData.imageData)
+            lastCapturedImage = photoData.imageData
             savePhoto(imageData: photoData.imageData)
         }
     }
@@ -53,11 +53,11 @@ final class DataModel: ObservableObject {
     private func unpackPhoto(_ photo: AVCapturePhoto) -> PhotoData? {
         guard let imageData = photo.fileDataRepresentation() else { return nil }
 
-//        guard let previewCGImage = photo.previewCGImageRepresentation(),
-//           let metadataOrientation = photo.metadata[String(kCGImagePropertyOrientation)] as? UInt32,
-//              let cgImageOrientation = CGImagePropertyOrientation(rawValue: metadataOrientation) else { return nil }
-//        let imageOrientation = Image.Orientation(cgImageOrientation)
-        guard let thumbnailImage = UIImage(data: imageData) else { return nil }
+        guard let previewCGImage = photo.previewCGImageRepresentation(),
+           let metadataOrientation = photo.metadata[String(kCGImagePropertyOrientation)] as? UInt32,
+              let cgImageOrientation = CGImagePropertyOrientation(rawValue: metadataOrientation) else { return nil }
+        let imageOrientation = Image.Orientation(cgImageOrientation)
+        let thumbnailImage = Image(decorative: previewCGImage, scale: 1, orientation: imageOrientation)
         
         let photoDimensions = photo.resolvedSettings.photoDimensions
         let imageSize = (width: Int(photoDimensions.width), height: Int(photoDimensions.height))
@@ -107,19 +107,11 @@ final class DataModel: ObservableObject {
                 }
             }
         }
-        await photoCollection.cache.requestImage(for: asset, targetSize: CGSize(width: 224, height: 224))  { result in
-            if let result = result {
-                Task { @MainActor in
-                    self.thumbnailImage = result.image
-                    self.lastCapturedImage = result.image
-                }
-            }
-        }
     }
 }
 
 fileprivate struct PhotoData {
-    var thumbnailImage: UIImage
+    var thumbnailImage: Image
     var thumbnailSize: (width: Int, height: Int)
     var imageData: Data
     var imageSize: (width: Int, height: Int)
