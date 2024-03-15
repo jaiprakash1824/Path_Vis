@@ -7,45 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C55B40E52BA408B100945590 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40D62BA408B000945590 /* Camera.swift */; };
-		C55B40E62BA408B100945590 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40D72BA408B000945590 /* CameraView.swift */; };
-		C55B40E72BA408B100945590 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40D82BA408B000945590 /* PhotoAsset.swift */; };
-		C55B40E82BA408B100945590 /* PhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40D92BA408B000945590 /* PhotoCollection.swift */; };
-		C55B40E92BA408B100945590 /* ViewfinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DA2BA408B000945590 /* ViewfinderView.swift */; };
-		C55B40EA2BA408B100945590 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DB2BA408B000945590 /* PhotoLibrary.swift */; };
-		C55B40EB2BA408B100945590 /* PhotoAssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DC2BA408B000945590 /* PhotoAssetCollection.swift */; };
-		C55B40EC2BA408B100945590 /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DD2BA408B000945590 /* ThumbnailView.swift */; };
-		C55B40ED2BA408B100945590 /* CachedImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DE2BA408B000945590 /* CachedImageManager.swift */; };
-		C55B40EE2BA408B100945590 /* PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40DF2BA408B000945590 /* PhotoCollectionView.swift */; };
-		C55B40EF2BA408B100945590 /* CameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40E02BA408B000945590 /* CameraApp.swift */; };
-		C55B40F02BA408B100945590 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40E12BA408B000945590 /* PhotoView.swift */; };
-		C55B40F12BA408B100945590 /* InferanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40E22BA408B100945590 /* InferanceView.swift */; };
-		C55B40F22BA408B100945590 /* PhotoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40E32BA408B100945590 /* PhotoItemView.swift */; };
-		C55B40F32BA408B100945590 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B40E42BA408B100945590 /* DataModel.swift */; };
 		C5CA33E52B8DB61800DD7E3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5CA33E42B8DB61800DD7E3D /* Assets.xcassets */; };
 		C5CA33E82B8DB61800DD7E3D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5CA33E72B8DB61800DD7E3D /* Preview Assets.xcassets */; };
+		C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33EE2B8DB64100DD7E3D /* CachedImageManager.swift */; };
+		C5CA33FE2B8DB66100DD7E3D /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F02B8DB66100DD7E3D /* CameraView.swift */; };
+		C5CA33FF2B8DB66100DD7E3D /* PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F12B8DB66100DD7E3D /* PhotoCollectionView.swift */; };
+		C5CA34002B8DB66100DD7E3D /* PhotoAssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F22B8DB66100DD7E3D /* PhotoAssetCollection.swift */; };
+		C5CA34012B8DB66100DD7E3D /* ViewfinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F32B8DB66100DD7E3D /* ViewfinderView.swift */; };
+		C5CA34022B8DB66100DD7E3D /* InferanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F42B8DB66100DD7E3D /* InferanceView.swift */; };
+		C5CA34032B8DB66100DD7E3D /* CameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F52B8DB66100DD7E3D /* CameraApp.swift */; };
+		C5CA34042B8DB66100DD7E3D /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F62B8DB66100DD7E3D /* PhotoAsset.swift */; };
+		C5CA34052B8DB66100DD7E3D /* PhotoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F72B8DB66100DD7E3D /* PhotoItemView.swift */; };
+		C5CA34062B8DB66100DD7E3D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F82B8DB66100DD7E3D /* Camera.swift */; };
+		C5CA34072B8DB66100DD7E3D /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33F92B8DB66100DD7E3D /* PhotoView.swift */; };
+		C5CA34082B8DB66100DD7E3D /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FA2B8DB66100DD7E3D /* PhotoLibrary.swift */; };
+		C5CA34092B8DB66100DD7E3D /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FB2B8DB66100DD7E3D /* DataModel.swift */; };
+		C5CA340A2B8DB66100DD7E3D /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */; };
+		C5CA340B2B8DB66100DD7E3D /* PhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FD2B8DB66100DD7E3D /* PhotoCollection.swift */; };
 		C5CA340F2B8DB90400DD7E3D /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C55B40D62BA408B000945590 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/Camera.swift"; sourceTree = "<group>"; };
-		C55B40D72BA408B000945590 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/CameraView.swift"; sourceTree = "<group>"; };
-		C55B40D82BA408B000945590 /* PhotoAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoAsset.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoAsset.swift"; sourceTree = "<group>"; };
-		C55B40D92BA408B000945590 /* PhotoCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoCollection.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoCollection.swift"; sourceTree = "<group>"; };
-		C55B40DA2BA408B000945590 /* ViewfinderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewfinderView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/ViewfinderView.swift"; sourceTree = "<group>"; };
-		C55B40DB2BA408B000945590 /* PhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoLibrary.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoLibrary.swift"; sourceTree = "<group>"; };
-		C55B40DC2BA408B000945590 /* PhotoAssetCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoAssetCollection.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoAssetCollection.swift"; sourceTree = "<group>"; };
-		C55B40DD2BA408B000945590 /* ThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThumbnailView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/ThumbnailView.swift"; sourceTree = "<group>"; };
-		C55B40DE2BA408B000945590 /* CachedImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CachedImageManager.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/CachedImageManager.swift"; sourceTree = "<group>"; };
-		C55B40DF2BA408B000945590 /* PhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoCollectionView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoCollectionView.swift"; sourceTree = "<group>"; };
-		C55B40E02BA408B000945590 /* CameraApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraApp.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/CameraApp.swift"; sourceTree = "<group>"; };
-		C55B40E12BA408B000945590 /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoView.swift"; sourceTree = "<group>"; };
-		C55B40E22BA408B100945590 /* InferanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InferanceView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/InferanceView.swift"; sourceTree = "<group>"; };
-		C55B40E32BA408B100945590 /* PhotoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoItemView.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/PhotoItemView.swift"; sourceTree = "<group>"; };
-		C55B40E42BA408B100945590 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataModel.swift; path = "../../../../../../Downloads/Capturing Photos.swiftpm/App/DataModel.swift"; sourceTree = "<group>"; };
 		C5CA33DD2B8DB61600DD7E3D /* inferance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inferance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5CA33E42B8DB61800DD7E3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5CA33E72B8DB61800DD7E3D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C5CA33EE2B8DB64100DD7E3D /* CachedImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImageManager.swift; sourceTree = "<group>"; };
+		C5CA33F02B8DB66100DD7E3D /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		C5CA33F12B8DB66100DD7E3D /* PhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionView.swift; sourceTree = "<group>"; };
+		C5CA33F22B8DB66100DD7E3D /* PhotoAssetCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAssetCollection.swift; sourceTree = "<group>"; };
+		C5CA33F32B8DB66100DD7E3D /* ViewfinderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewfinderView.swift; sourceTree = "<group>"; };
+		C5CA33F42B8DB66100DD7E3D /* InferanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferanceView.swift; sourceTree = "<group>"; };
+		C5CA33F52B8DB66100DD7E3D /* CameraApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraApp.swift; sourceTree = "<group>"; };
+		C5CA33F62B8DB66100DD7E3D /* PhotoAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
+		C5CA33F72B8DB66100DD7E3D /* PhotoItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoItemView.swift; sourceTree = "<group>"; };
+		C5CA33F82B8DB66100DD7E3D /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		C5CA33F92B8DB66100DD7E3D /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		C5CA33FA2B8DB66100DD7E3D /* PhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
+		C5CA33FB2B8DB66100DD7E3D /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
+		C5CA33FD2B8DB66100DD7E3D /* PhotoCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollection.swift; sourceTree = "<group>"; };
 		C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,22 +79,22 @@
 		C5CA33DF2B8DB61600DD7E3D /* inferance */ = {
 			isa = PBXGroup;
 			children = (
-				C55B40DE2BA408B000945590 /* CachedImageManager.swift */,
-				C55B40D62BA408B000945590 /* Camera.swift */,
-				C55B40E02BA408B000945590 /* CameraApp.swift */,
-				C55B40D72BA408B000945590 /* CameraView.swift */,
-				C55B40E42BA408B100945590 /* DataModel.swift */,
-				C55B40E22BA408B100945590 /* InferanceView.swift */,
-				C55B40D82BA408B000945590 /* PhotoAsset.swift */,
-				C55B40DC2BA408B000945590 /* PhotoAssetCollection.swift */,
-				C55B40D92BA408B000945590 /* PhotoCollection.swift */,
-				C55B40DF2BA408B000945590 /* PhotoCollectionView.swift */,
-				C55B40E32BA408B100945590 /* PhotoItemView.swift */,
-				C55B40DB2BA408B000945590 /* PhotoLibrary.swift */,
-				C55B40E12BA408B000945590 /* PhotoView.swift */,
-				C55B40DD2BA408B000945590 /* ThumbnailView.swift */,
-				C55B40DA2BA408B000945590 /* ViewfinderView.swift */,
 				C5CA33E42B8DB61800DD7E3D /* Assets.xcassets */,
+				C5CA33EE2B8DB64100DD7E3D /* CachedImageManager.swift */,
+				C5CA33F82B8DB66100DD7E3D /* Camera.swift */,
+				C5CA33F52B8DB66100DD7E3D /* CameraApp.swift */,
+				C5CA33F02B8DB66100DD7E3D /* CameraView.swift */,
+				C5CA33FB2B8DB66100DD7E3D /* DataModel.swift */,
+				C5CA33F42B8DB66100DD7E3D /* InferanceView.swift */,
+				C5CA33F62B8DB66100DD7E3D /* PhotoAsset.swift */,
+				C5CA33F22B8DB66100DD7E3D /* PhotoAssetCollection.swift */,
+				C5CA33FD2B8DB66100DD7E3D /* PhotoCollection.swift */,
+				C5CA33F12B8DB66100DD7E3D /* PhotoCollectionView.swift */,
+				C5CA33F72B8DB66100DD7E3D /* PhotoItemView.swift */,
+				C5CA33FA2B8DB66100DD7E3D /* PhotoLibrary.swift */,
+				C5CA33F92B8DB66100DD7E3D /* PhotoView.swift */,
+				C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */,
+				C5CA33F32B8DB66100DD7E3D /* ViewfinderView.swift */,
 				C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */,
 				C5CA33E62B8DB61800DD7E3D /* Preview Content */,
 			);
@@ -179,22 +179,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C55B40F22BA408B100945590 /* PhotoItemView.swift in Sources */,
-				C55B40EB2BA408B100945590 /* PhotoAssetCollection.swift in Sources */,
-				C55B40E52BA408B100945590 /* Camera.swift in Sources */,
-				C55B40EF2BA408B100945590 /* CameraApp.swift in Sources */,
-				C55B40E62BA408B100945590 /* CameraView.swift in Sources */,
-				C55B40EA2BA408B100945590 /* PhotoLibrary.swift in Sources */,
-				C55B40E82BA408B100945590 /* PhotoCollection.swift in Sources */,
-				C55B40EE2BA408B100945590 /* PhotoCollectionView.swift in Sources */,
-				C55B40E92BA408B100945590 /* ViewfinderView.swift in Sources */,
-				C55B40F32BA408B100945590 /* DataModel.swift in Sources */,
-				C55B40F12BA408B100945590 /* InferanceView.swift in Sources */,
-				C55B40E72BA408B100945590 /* PhotoAsset.swift in Sources */,
-				C55B40F02BA408B100945590 /* PhotoView.swift in Sources */,
-				C55B40EC2BA408B100945590 /* ThumbnailView.swift in Sources */,
-				C55B40ED2BA408B100945590 /* CachedImageManager.swift in Sources */,
+				C5CA34052B8DB66100DD7E3D /* PhotoItemView.swift in Sources */,
+				C5CA340B2B8DB66100DD7E3D /* PhotoCollection.swift in Sources */,
+				C5CA34022B8DB66100DD7E3D /* InferanceView.swift in Sources */,
+				C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */,
+				C5CA33FE2B8DB66100DD7E3D /* CameraView.swift in Sources */,
+				C5CA34082B8DB66100DD7E3D /* PhotoLibrary.swift in Sources */,
+				C5CA340A2B8DB66100DD7E3D /* ThumbnailView.swift in Sources */,
+				C5CA33FF2B8DB66100DD7E3D /* PhotoCollectionView.swift in Sources */,
+				C5CA34092B8DB66100DD7E3D /* DataModel.swift in Sources */,
+				C5CA34072B8DB66100DD7E3D /* PhotoView.swift in Sources */,
+				C5CA34032B8DB66100DD7E3D /* CameraApp.swift in Sources */,
+				C5CA34062B8DB66100DD7E3D /* Camera.swift in Sources */,
+				C5CA34042B8DB66100DD7E3D /* PhotoAsset.swift in Sources */,
+				C5CA34012B8DB66100DD7E3D /* ViewfinderView.swift in Sources */,
 				C5CA340F2B8DB90400DD7E3D /* Resnet50.mlmodel in Sources */,
+				C5CA34002B8DB66100DD7E3D /* PhotoAssetCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
