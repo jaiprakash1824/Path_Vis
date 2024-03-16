@@ -17,7 +17,7 @@ struct InferanceView: View {
             Text("Run Inferance 🙂")
                 .font(.largeTitle);
             Button("Run", systemImage: "arrow.right") {
-                inferanceTreggering(model: model);
+                inferanceTreggering(modelDataCom: model);
             }.buttonStyle(.bordered)
         }
         
@@ -41,9 +41,29 @@ struct DisplayView: View {
     }
 }
 
-func inferanceTreggering(model: DataModel) {
+func inferanceTreggering(modelDataCom: DataModel) {
     print("inferance triggering here")
 //    print(model.thumbnailImage)
+    var config = MLModelConfiguration()
+    guard let model = try? VNCoreMLModel(for: Resnet50(configuration: config).model)
+                else { return }
+    let request = VNCoreMLRequest(model: model)
+    { (finishedReq, err) in
+        guard let results =
+                finishedReq.results as? [VNClassificationObservation]
+        else { return }
+        guard let firstObservation = results.first
+        else { return }
+        print(firstObservation.identifier, firstObservation.confidence)
+        DispatchQueue.main.async {
+                        let confidenceRate = firstObservation.confidence * 100
+                        let objectName = firstObservation.identifier
+                        let result = "\(objectName) \(confidenceRate)"
+                        print("results --> ",result)
+                    }
+    }
+//    guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(dataModelCom.thumbnailImageCvPixelBuffer as! CMSampleBuffer) else { return }
+//    try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
     
 }
 
