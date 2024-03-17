@@ -25,6 +25,8 @@
 		C5CA340A2B8DB66100DD7E3D /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */; };
 		C5CA340B2B8DB66100DD7E3D /* PhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33FD2B8DB66100DD7E3D /* PhotoCollection.swift */; };
 		C5CA340F2B8DB90400DD7E3D /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */; };
+		C5D286F82BA7A9A600F12A30 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */; };
+		C5D286FA2BA7AA0C00F12A30 /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		C5CA33FD2B8DB66100DD7E3D /* PhotoCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollection.swift; sourceTree = "<group>"; };
 		C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
+		C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
+		C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MobileNet.mlmodel; path = ../../ClassifyingImagesWithVisionAndCoreML/Models/MobileNet.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +99,9 @@
 				C5CA33F92B8DB66100DD7E3D /* PhotoView.swift */,
 				C5CA33FC2B8DB66100DD7E3D /* ThumbnailView.swift */,
 				C5CA33F32B8DB66100DD7E3D /* ViewfinderView.swift */,
+				C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */,
 				C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */,
+				C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */,
 				C5CA33E62B8DB61800DD7E3D /* Preview Content */,
 			);
 			path = inferance;
@@ -181,6 +187,7 @@
 			files = (
 				C5CA34052B8DB66100DD7E3D /* PhotoItemView.swift in Sources */,
 				C5CA340B2B8DB66100DD7E3D /* PhotoCollection.swift in Sources */,
+				C5D286FA2BA7AA0C00F12A30 /* MobileNet.mlmodel in Sources */,
 				C5CA34022B8DB66100DD7E3D /* InferanceView.swift in Sources */,
 				C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */,
 				C5CA33FE2B8DB66100DD7E3D /* CameraView.swift in Sources */,
@@ -189,6 +196,7 @@
 				C5CA33FF2B8DB66100DD7E3D /* PhotoCollectionView.swift in Sources */,
 				C5CA34092B8DB66100DD7E3D /* DataModel.swift in Sources */,
 				C5CA34072B8DB66100DD7E3D /* PhotoView.swift in Sources */,
+				C5D286F82BA7A9A600F12A30 /* ImagePredictor.swift in Sources */,
 				C5CA34032B8DB66100DD7E3D /* CameraApp.swift in Sources */,
 				C5CA34062B8DB66100DD7E3D /* Camera.swift in Sources */,
 				C5CA34042B8DB66100DD7E3D /* PhotoAsset.swift in Sources */,

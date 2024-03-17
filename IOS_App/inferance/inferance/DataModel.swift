@@ -13,6 +13,7 @@ final class DataModel: ObservableObject {
     @Published var viewfinderImage: Image?
     @Published var thumbnailImage: Image?
     @Published var lastCapturedImage: Data?
+    @Published var imageData: Data?
     
     var isPhotosLoaded = false
     
@@ -44,6 +45,7 @@ final class DataModel: ObservableObject {
         for await photoData in unpackedPhotoStream {
             Task { @MainActor in
                 thumbnailImage = photoData.thumbnailImage
+                imageData = photoData.imageData
             }
             lastCapturedImage = photoData.imageData
             savePhoto(imageData: photoData.imageData)
@@ -64,7 +66,7 @@ final class DataModel: ObservableObject {
         let previewDimensions = photo.resolvedSettings.previewDimensions
         let thumbnailSize = (width: Int(previewDimensions.width), height: Int(previewDimensions.height))
         
-        return PhotoData(thumbnailImage: thumbnailImage, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
+        return PhotoData(thumbnailImage: thumbnailImage, photoRaw:photo, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
     }
     
     func savePhoto(imageData: Data) {
@@ -112,6 +114,7 @@ final class DataModel: ObservableObject {
 
 fileprivate struct PhotoData {
     var thumbnailImage: Image
+    var photoRaw: AVCapturePhoto
     var thumbnailSize: (width: Int, height: Int)
     var imageData: Data
     var imageSize: (width: Int, height: Int)

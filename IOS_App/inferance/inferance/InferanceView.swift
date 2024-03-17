@@ -44,26 +44,21 @@ struct DisplayView: View {
 func inferanceTreggering(modelDataCom: DataModel) {
     print("inferance triggering here")
 //    print(model.thumbnailImage)
-    var config = MLModelConfiguration()
-    guard let model = try? VNCoreMLModel(for: Resnet50(configuration: config).model)
-                else { return }
-    let request = VNCoreMLRequest(model: model)
-    { (finishedReq, err) in
-        guard let results =
-                finishedReq.results as? [VNClassificationObservation]
-        else { return }
-        guard let firstObservation = results.first
-        else { return }
-        print(firstObservation.identifier, firstObservation.confidence)
-        DispatchQueue.main.async {
-                        let confidenceRate = firstObservation.confidence * 100
-                        let objectName = firstObservation.identifier
-                        let result = "\(objectName) \(confidenceRate)"
-                        print("results --> ",result)
-                    }
+    let imagePredictor = ImagePredictor()
+    do {
+        try imagePredictor.makePredictions(for: UIImage(data: modelDataCom.imageData!)!,
+                                                completionHandler: imagePredictionHandler)
+    } catch {
+        print("Vision was unable to make a prediction...\n\n\(error.localizedDescription)")
     }
-//    guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(dataModelCom.thumbnailImageCvPixelBuffer as! CMSampleBuffer) else { return }
-//    try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+    func imagePredictionHandler(_ predictions: [ImagePredictor.Prediction]?) {
+        guard let predictions = predictions else {
+            print("No predictions. (Check console log.)")
+            return
+        }
+
+        print(predictions)
+    }
     
 }
 
