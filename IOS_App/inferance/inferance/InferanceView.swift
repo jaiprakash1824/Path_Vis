@@ -56,7 +56,7 @@ func inferanceTreggering(modelDataCom: DataModel) {
             print("No predictions. (Check console log.)")
             return
         }
-
+        
         print(predictions)
     }
     
