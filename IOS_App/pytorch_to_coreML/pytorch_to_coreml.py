@@ -17,13 +17,9 @@ from modelclass import SegmentationModel
 # Load the PyTorch model
 model = SegmentationModel(2)
 model.load_state_dict(torch.load("best.pth", map_location=torch.device("cpu")))
-model.eval()
 
 # Dummy input - adjust according to your model input shape
 input_batch = torch.randn(1, 3, 640, 640)
-
-# Trace the model
-trace = torch.jit.trace(model, input_batch)
 
 preprocess = transforms.Compose(
     [
@@ -36,16 +32,16 @@ preprocess = transforms.Compose(
     ]
 )
 
+# Trace the model
+trace = torch.jit.trace(model, input_batch)
+
+
+
 mlmodel = ct.convert(
     trace,
     inputs=[
-        ct.ImageType(
+        ct.ImageType(name="image",
             shape=(1, 3, 640, 640)
-        )
-    ],
-    outputs=[
-        ct.ImageType(
-            shape=(1, 2, 640, 640)
         )
     ],
     minimum_deployment_target=ct.target.macOS13,
