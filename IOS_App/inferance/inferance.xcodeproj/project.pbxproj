@@ -28,6 +28,7 @@
 		C5D286F82BA7A9A600F12A30 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */; };
 		C5D286FA2BA7AA0C00F12A30 /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */; };
 		C5D286FC2BA9514F00F12A30 /* DeepLabV3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */; };
+		C5D286FE2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
 		C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MobileNet.mlmodel; path = ../../ClassifyingImagesWithVisionAndCoreML/Models/MobileNet.mlmodel; sourceTree = "<group>"; };
 		C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DeepLabV3.mlmodel; sourceTree = "<group>"; };
+		C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = SegmentationModel_with_metadata.mlpackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */,
 				C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */,
 				C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */,
+				C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */,
 				C5CA33E62B8DB61800DD7E3D /* Preview Content */,
 			);
 			path = inferance;
@@ -194,6 +197,7 @@
 				C5CA34022B8DB66100DD7E3D /* InferanceView.swift in Sources */,
 				C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */,
 				C5CA33FE2B8DB66100DD7E3D /* CameraView.swift in Sources */,
+				C5D286FE2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage in Sources */,
 				C5D286FC2BA9514F00F12A30 /* DeepLabV3.mlmodel in Sources */,
 				C5CA34082B8DB66100DD7E3D /* PhotoLibrary.swift in Sources */,
 				C5CA340A2B8DB66100DD7E3D /* ThumbnailView.swift in Sources */,
