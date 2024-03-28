@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		396DCCA22BB4DA7E00676737 /* Segmentation_working.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 396DCCA12BB4DA7E00676737 /* Segmentation_working.mlpackage */; };
 		C5CA33E52B8DB61800DD7E3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5CA33E42B8DB61800DD7E3D /* Assets.xcassets */; };
 		C5CA33E82B8DB61800DD7E3D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5CA33E72B8DB61800DD7E3D /* Preview Assets.xcassets */; };
 		C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA33EE2B8DB64100DD7E3D /* CachedImageManager.swift */; };
@@ -28,10 +29,10 @@
 		C5D286F82BA7A9A600F12A30 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */; };
 		C5D286FA2BA7AA0C00F12A30 /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */; };
 		C5D286FC2BA9514F00F12A30 /* DeepLabV3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */; };
-		C5D286FE2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		396DCCA12BB4DA7E00676737 /* Segmentation_working.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = Segmentation_working.mlpackage; sourceTree = "<group>"; };
 		C5CA33DD2B8DB61600DD7E3D /* inferance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inferance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5CA33E42B8DB61800DD7E3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5CA33E72B8DB61800DD7E3D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -54,7 +55,6 @@
 		C5D286F72BA7A9A600F12A30 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
 		C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MobileNet.mlmodel; path = ../../ClassifyingImagesWithVisionAndCoreML/Models/MobileNet.mlmodel; sourceTree = "<group>"; };
 		C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DeepLabV3.mlmodel; sourceTree = "<group>"; };
-		C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = SegmentationModel_with_metadata.mlpackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 				C5CA340E2B8DB90400DD7E3D /* Resnet50.mlmodel */,
 				C5D286F92BA7AA0C00F12A30 /* MobileNet.mlmodel */,
 				C5D286FB2BA9514F00F12A30 /* DeepLabV3.mlmodel */,
-				C5D286FD2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage */,
+				396DCCA12BB4DA7E00676737 /* Segmentation_working.mlpackage */,
 				C5CA33E62B8DB61800DD7E3D /* Preview Content */,
 			);
 			path = inferance;
@@ -197,12 +197,12 @@
 				C5CA34022B8DB66100DD7E3D /* InferanceView.swift in Sources */,
 				C5CA33EF2B8DB64100DD7E3D /* CachedImageManager.swift in Sources */,
 				C5CA33FE2B8DB66100DD7E3D /* CameraView.swift in Sources */,
-				C5D286FE2BA9DE4C00F12A30 /* SegmentationModel_with_metadata.mlpackage in Sources */,
 				C5D286FC2BA9514F00F12A30 /* DeepLabV3.mlmodel in Sources */,
 				C5CA34082B8DB66100DD7E3D /* PhotoLibrary.swift in Sources */,
 				C5CA340A2B8DB66100DD7E3D /* ThumbnailView.swift in Sources */,
 				C5CA33FF2B8DB66100DD7E3D /* PhotoCollectionView.swift in Sources */,
 				C5CA34092B8DB66100DD7E3D /* DataModel.swift in Sources */,
+				396DCCA22BB4DA7E00676737 /* Segmentation_working.mlpackage in Sources */,
 				C5CA34072B8DB66100DD7E3D /* PhotoView.swift in Sources */,
 				C5D286F82BA7A9A600F12A30 /* ImagePredictor.swift in Sources */,
 				C5CA34032B8DB66100DD7E3D /* CameraApp.swift in Sources */,
@@ -344,7 +344,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inferance/Preview Content\"";
-				DEVELOPMENT_TEAM = 9HU8X62322;
+				DEVELOPMENT_TEAM = 7JHBJXADMV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME)";
@@ -376,7 +376,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inferance/Preview Content\"";
-				DEVELOPMENT_TEAM = 9HU8X62322;
+				DEVELOPMENT_TEAM = 7JHBJXADMV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME)";
