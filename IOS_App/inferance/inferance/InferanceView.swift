@@ -17,7 +17,7 @@ struct InferanceView: View {
             Text("Run Inferance 🙂")
                 .font(.largeTitle);
             Button("Run", systemImage: "arrow.right") {
-                inferanceTreggering(modelDataCom: model);
+                inferenceTriggering(modelDataCom: model);
             }.buttonStyle(.bordered)
         }
         
@@ -41,53 +41,42 @@ struct DisplayView: View {
     }
 }
 
-func inferanceTreggering(modelDataCom: DataModel) {
-    print("inferance triggering here")
-    // DeepLabV3(iOS12+), DeepLabV3FP16(iOS12+), DeepLabV3Int8LUT(iOS12+)
-    let segmentationModel = DeepLabV3()
-        
-    // MARK: - Vision Properties
-    var request: VNCoreMLRequest?
-    var visionModel1: VNCoreMLModel?
+func inferenceTriggering(modelDataCom: DataModel) {
+    print("Inference triggering here")
 
-    if let visionModel = try? VNCoreMLModel(for: segmentationModel.model) {
-        visionModel1 = visionModel
-        request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
-        request?.imageCropAndScaleOption = .centerCrop
-    } else {
-        fatalError()
+    guard let imageData = modelDataCom.imageData,
+          let image = UIImage(data: imageData) else {
+        print("Error: Could not load image data.")
+        return
     }
-    guard let request = request else { fatalError() }
-    // vision framework configures the input size of image following our model's input configuration automatically
-    let handler = VNImageRequestHandler(cgImage: (UIImage(data: modelDataCom.imageData!)?.cgImage)!, options: [:])
-    try? handler.perform([request])
-    
-    //    print(model.thumbnailImage)
-//    let imagePredictor = ImagePredictor()
-//    do {
-//        try imagePredictor.makePredictions(for: UIImage(data: modelDataCom.imageData!)!,
-//                                                completionHandler: imagePredictionHandler)
-//    } catch {
-//        print("Vision was unable to make a prediction...\n\n\(error.localizedDescription)")
-//    }
-//    func imagePredictionHandler(_ predictions: [ImagePredictor.Prediction]?) {
-//        guard let predictions = predictions else {
-//            print("No predictions. (Check console log.)")
-//            return
-//        }
-//        
-//        print(predictions)
-//    }
-    
-    func visionRequestDidComplete(request: VNRequest, error: Error?) {
-            if let observations = request.results as? [VNCoreMLFeatureValueObservation],
-                let segmentationmap = observations.first?.featureValue.multiArrayValue {
-                print(segmentationmap)
-            }
-        }
+
+    do {
+        // Convert UIImage to MLMultiArray
+        let inputArray = try convertImageToMLMultiArray(image)
+
+        // Load the custom model 'Segmentation_working'.
+        let segmentationModel = try Segmentation_working(configuration: MLModelConfiguration())
+
+        // Make prediction
+        let prediction = try segmentationModel.prediction(image: inputArray) // Adjust 'image:' to your model's input name
+
+        // Handle prediction result
+        print(prediction.var_1764) // Adjust according to what your model outputs
+
+    } catch {
+        print("Error occurred: \(error.localizedDescription)")
+    }
 }
 
-
+// Dummy function for converting UIImage to MLMultiArray
+// Implement this function based on your model's input requirements
+func convertImageToMLMultiArray(_ image: UIImage) throws -> MLMultiArray {
+    let shape = [1, 3, 640, 640] as [NSNumber]
+    guard let mlMultiArray = try? MLMultiArray(shape: shape, dataType: MLMultiArrayDataType.float32) else {
+        throw NSError(domain: "MLMultiArrayInitializationError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create MLMultiArray"])
+    }
+    return mlMultiArray
+}
 
 #Preview {
     InferanceView(model:DataModel())
