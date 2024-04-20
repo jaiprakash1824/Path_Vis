@@ -1,15 +1,10 @@
-//
-//  WebView.swift
-//  Webview
-//
-//  Created by Jai Prakash Veerla on 4/16/24.
-//
-
 import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
     var url: URL
+    @Binding var takeScreenshot: Bool
+    var completion: ((UIImage?) -> Void)?
 
     func makeUIView(context: Context) -> WKWebView {
         let prefs = WKWebpagePreferences()
@@ -21,6 +16,24 @@ struct WebView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
+        if takeScreenshot {
+            let snapshotConfiguration = WKSnapshotConfiguration()
+            // Configure your snapshot here (e.g., specify snapshot bounds)
+            uiView.takeSnapshot(with: snapshotConfiguration) { image, error in
+                guard let image = image, error == nil else {
+                    // Handle error
+                    self.completion?(nil)
+                    return
+                }
+                
+                self.completion?(image)
+            }
+            // Reset the trigger to avoid repeated snapshots
+            DispatchQueue.main.async {
+                self.takeScreenshot = false
+            }
+        }
+
         let request = URLRequest(url: url)
         uiView.load(request)
     }
