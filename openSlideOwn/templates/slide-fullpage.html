@@ -27,6 +27,9 @@ div#view {
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='openseadragon.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='openseadragon-scalebar.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='openseadragonScreenshot.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='openseadragonScreenshot.js') }}"></script>
+
 <script type="text/javascript">
 $(function() {
     var viewer = new OpenSeadragon({
@@ -34,7 +37,11 @@ $(function() {
         tileSources: "{{ slide_url }}",
         prefixUrl: "{{ url_for('static', filename='images/') }}",
         showNavigator: true,
-        showRotationControl: true,
+        navigatorRotate: false,
+        showRotationControl: false,
+        showHomeControl: false,
+        showFullPageControl: false,
+        showZoomControl: false,
         animationTime: 0.5,
         blendTime: 0.1,
         constrainDuringPan: true,
@@ -43,7 +50,7 @@ $(function() {
         visibilityRatio: 1,
         zoomPerScroll: 2,
         timeout: 120000,
-
+        crossOriginPolicy: "Anonymous"
     });
 
     var mpp = parseFloat("{{ slide_mpp }}");
@@ -56,5 +63,11 @@ $(function() {
         fontColor: '#333333',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
     });
+<!--    viewer.screenshot({-->
+<!--        showOptions: true, // Default is false-->
+<!--        keyboardShortcut: 'p', // Default is null-->
+<!--        showScreenshotControl: true // Default is true-->
+
+<!--    });-->
 });
 </script>
