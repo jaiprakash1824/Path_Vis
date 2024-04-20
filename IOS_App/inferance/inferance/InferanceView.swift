@@ -66,6 +66,11 @@ func inferenceTriggering(modelDataCom: DataModel) {
             // Crop the image to this bounding box
             print("image hight :",image.size.height)
             print("image width :",image.size.width)
+            print("predict hight :",prediction.var_1764.shape[0])
+            print("predict hight :",prediction.var_1764.shape[1])
+            print("predict width :",prediction.var_1764.shape[2])
+
+//            resize the image to 640 X 640
             if let croppedImage = cropImage(image, to: boundingBox) {
                 // Use croppedImage as needed, e.g., display in UI or further processing
                 modelDataCom.thumbnailImage = Image(uiImage: croppedImage)
