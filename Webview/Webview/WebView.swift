@@ -32,9 +32,10 @@ struct WebView: UIViewRepresentable {
             DispatchQueue.main.async {
                 self.takeScreenshot = false
             }
+        }else {
+            let request = URLRequest(url: url)
+            uiView.load(request)
         }
 
-        let request = URLRequest(url: url)
-        uiView.load(request)
     }
 }

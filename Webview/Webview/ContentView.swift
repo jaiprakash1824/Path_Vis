@@ -19,8 +19,9 @@ enum Tab {
 struct ContentView: View {
     
     @State private var takeScreenshot = false
-    @State private var capturedImage: UIImage?
-    @State var webViewURL = URL(string: "http://10.64.1.105:5001")!
+    @State private var capturedImage: UIImage = UIImage()
+    @State private var showingCapturedImageSheet = false
+    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
     
     func doit(){
@@ -29,31 +30,79 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            HStack {
-                Button("TCGA-12-0703") {
-                    self.webViewURL = URL(string: "http://10.64.1.105:5001/GBM/TCGA-12-0703-01Z-00-DX1.c09bd51d-9a48-446a-a9fd-d4138f76c11c.svs")!
-                    self.selection = Tab.viwer
+            GeometryReader { geometry in
+                HStack(spacing: 0) {
+                    // Left side (25%)
+                    VStack {
+                        Button(action: {
+                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.selection = Tab.viwer
+                        }, label: {
+                            Text("Image 1")
+                        })
+                    }
+                    .frame(width: geometry.size.width * 0.25)
+                    .background(Color.gray)
+                    // Right side (75%)
+                    VStack {
+                        // Your files content here
+                        Button(action: {
+                            self.webViewURL = URL(string: "http://172.20.10.3:5001/breast/BRCA/TCGA-A7-A0DA-01Z-00-DX2.90C93176-C3C6-41B3-B34B-B16F1A1779E6.svs")!
+                            self.selection = Tab.viwer
+                        }, label: {
+                            Text("Image 2")
+                        })
+                    }
+                    .frame(width: geometry.size.width * 0.75)
                 }
-                Button("TCGA-DU-6400") {
-                    self.webViewURL = URL(string: "http://10.64.1.105:5001/LGG/TCGA-DU-6400-01A-01-TS1.2fd5b56f-fa60-4985-ac9a-4964beb9262d.svs")!
-                    self.selection = Tab.viwer
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }.tag(Tab.home)
+            .tabItem {
+                Label("Home", systemImage: "house")
+            }.tag(Tab.home)
             VStack {
-                        WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
-                            self.capturedImage = image
-                            // Handle captured image (e.g., show in the UI or save)
+                WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
+                    DispatchQueue.main.async {
+                        if let validImage = image {
+                            self.capturedImage = validImage
+                            print("Image captured ", validImage)
+                            
+                            // Save the image to the Photos album
+                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
+                            
+                            self.showingCapturedImageSheet = true
                         }
-                        Button("Capture Screenshot") {
-                            self.takeScreenshot = true
-                        }
-                    }.glassBackgroundEffect()
+                    }
+//                    self.capturedImage = image!
+//                    print("Image captured ", image)
+//                                        self.showingCapturedImageSheet = true
+                }.toolbar {
+                    ToolbarItem(placement: .bottomOrnament) {
+                        
+                    }
+                }.ornament(visibility: .visible, attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
+                    Button(action: {
+                        self.takeScreenshot = true
+                    }) {
+                        Label("", systemImage: "camera.viewfinder")
+                    }
+                    .padding(.top, 50)
+                }
+                
+            }.glassBackgroundEffect()
                 .tabItem {
                     Label("Viewer", systemImage: "eye")
                 }.tag(Tab.viwer)
+        }.sheet(isPresented: $showingCapturedImageSheet) {
+            Button(action: {
+                self.showingCapturedImageSheet = false
+            }, label: {
+                Text("close")
+            })
+            // This is the sheet presentation of the captured image
+            Image(uiImage: self.capturedImage)
+                .resizable()
+                .scaledToFit()
         }
         
     }
