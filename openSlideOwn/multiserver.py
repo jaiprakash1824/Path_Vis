@@ -26,6 +26,7 @@ from io import BytesIO
 import os
 from threading import Lock
 import zlib
+import jsonpickle
 
 from PIL import ImageCms
 from flask import Flask, abort, make_response, render_template, url_for
@@ -142,7 +143,7 @@ def create_app(config=None, config_file=None):
     @app.route('/search/<path:path>')
     def get_search_results(path):
         path = os.path.abspath(os.path.join(app.basedir, path))
-        return yottixel.run(path)
+        return jsonpickle.encode(yottixel.run(path))
 
     @app.route('/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
     def tile(path, level, col, row, format):
