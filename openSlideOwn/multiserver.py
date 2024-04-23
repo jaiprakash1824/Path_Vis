@@ -361,7 +361,7 @@ if __name__ == '__main__':
         nargs='?',
         help='slide directory',
     )
-    yottixel.run('./')
+    yottixel.run('./data/GBM/TCGA-12-0703-01Z-00-DX1.c09bd51d-9a48-446a-a9fd-d4138f76c11c.svs')
     args = parser.parse_args()
     config = {}
     config_file = args.config
