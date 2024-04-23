@@ -44,6 +44,7 @@ def run(query_slide_path_input):
         os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
     prepare_slide(query_slide_path, save_dir, tissue_threshold, kmeans_clusters, percentage_selected)
+    print(network_weights_address)
     extract_features(query_slide_path, save_dir, network_weights_address, network_input_patch_width, batch_size, img_format)
     res = main_search(query_slide_path, save_dir, database_dir, database_features_path, metadata_path, query_extension, k, subtype_search, query_site)
     return res
