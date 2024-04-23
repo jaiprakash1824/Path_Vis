@@ -76,4 +76,4 @@ def main_search(query_slide_path, save_dir, database_dir, database_features_path
     } 
     df = pd.DataFrame(df_dict)
     df.to_csv(save_path, index=False)
-    return links 
+    return paths
