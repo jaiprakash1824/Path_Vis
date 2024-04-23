@@ -29,6 +29,7 @@ import zlib
 
 from PIL import ImageCms
 from flask import Flask, abort, make_response, render_template, url_for
+import yottixel_code.yottixel as yottixel
 
 if os.name == 'nt':
     _dll_path = os.getenv('OPENSLIDE_PATH')
@@ -360,7 +361,7 @@ if __name__ == '__main__':
         nargs='?',
         help='slide directory',
     )
-
+    yottixel.run('./')
     args = parser.parse_args()
     config = {}
     config_file = args.config

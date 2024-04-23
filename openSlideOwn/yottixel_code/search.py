@@ -4,8 +4,8 @@ import pickle
 import numpy as np
 import pandas as pd
 
-from utils import BoB, load_mosaic
-from consts import SITES_DICT, DIAGNOSES_DICT, VIEW_URL
+from yottixel_code.utils import BoB, load_mosaic
+from yottixel_code.consts import SITES_DICT, DIAGNOSES_DICT, VIEW_URL
 
 
 def main_search(query_slide_path, save_dir, database_dir, database_features_path, metadata_path, query_extension, k, subtype_search, query_site):

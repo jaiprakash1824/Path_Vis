@@ -17,7 +17,7 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Lambda
 from tensorflow.keras.backend import bias_add, constant    
 
 
-from utils import RGB2HSD, clean_thumbnail, save_mosaic
+from yottixel_code.utils import RGB2HSD, clean_thumbnail, save_mosaic
 
 
 def prepare_slide(query_slide_path, save_dir, tissue_threshold, kmeans_clusters, percentage_selected):
