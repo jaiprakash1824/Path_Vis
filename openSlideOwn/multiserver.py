@@ -139,6 +139,11 @@ def create_app(config=None, config_file=None):
         resp.mimetype = 'application/xml'
         return resp
 
+    @app.route('/search/<path:path>')
+    def get_search_results(path):
+        path = os.path.abspath(os.path.join(app.basedir, path))
+        return yottixel.run(path)
+
     @app.route('/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
     def tile(path, level, col, row, format):
         slide = get_slide(path)
@@ -361,7 +366,6 @@ if __name__ == '__main__':
         nargs='?',
         help='slide directory',
     )
-    print(yottixel.run('./data/GBM/TCGA-12-0703-01Z-00-DX1.c09bd51d-9a48-446a-a9fd-d4138f76c11c.svs'))
     args = parser.parse_args()
     config = {}
     config_file = args.config
