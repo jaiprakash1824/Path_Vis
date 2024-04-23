@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
-    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+    @State var webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
     
     func doit(){
@@ -35,7 +35,7 @@ struct ContentView: View {
                     // Left side (25%)
                     VStack {
                         Button(action: {
-                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 1")
@@ -47,7 +47,7 @@ struct ContentView: View {
                     VStack {
                         // Your files content here
                         Button(action: {
-                            self.webViewURL = URL(string: "http://172.20.10.3:5001/breast/BRCA/TCGA-A7-A0DA-01Z-00-DX2.90C93176-C3C6-41B3-B34B-B16F1A1779E6.svs")!
+                            self.webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 2")
@@ -62,20 +62,20 @@ struct ContentView: View {
             }.tag(Tab.home)
             VStack {
                 WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
-                    DispatchQueue.main.async {
-                        if let validImage = image {
-                            self.capturedImage = validImage
-                            print("Image captured ", validImage)
-                            
-                            // Save the image to the Photos album
-                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
-                            
-                            self.showingCapturedImageSheet = true
-                        }
-                    }
-//                    self.capturedImage = image!
-//                    print("Image captured ", image)
-//                                        self.showingCapturedImageSheet = true
+//                    DispatchQueue.main.async {
+//                        if let validImage = image {
+//                            self.capturedImage = validImage
+//                            print("Image captured ", validImage)
+//                            
+//                            // Save the image to the Photos album
+//                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
+//                            
+//                            self.showingCapturedImageSheet = true
+//                        }
+//                    }
+                    self.capturedImage = image!
+                    print("Image captured ", image)
+                    self.showingCapturedImageSheet = true
                 }.toolbar {
                     ToolbarItem(placement: .bottomOrnament) {
                         
