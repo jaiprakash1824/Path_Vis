@@ -62,17 +62,17 @@ struct ContentView: View {
             }.tag(Tab.home)
             VStack {
                 WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
-//                    DispatchQueue.main.async {
-//                        if let validImage = image {
-//                            self.capturedImage = validImage
-//                            print("Image captured ", validImage)
-//                            
-//                            // Save the image to the Photos album
-//                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
-//                            
-//                            self.showingCapturedImageSheet = true
-//                        }
-//                    }
+                    DispatchQueue.main.async {
+                        if let validImage = image {
+                            self.capturedImage = validImage
+                            print("Image captured ", validImage)
+                            
+                            // Save the image to the Photos album
+                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
+                            
+                            self.showingCapturedImageSheet = true
+                        }
+                    }
                     self.capturedImage = image!
                     print("Image captured ", image)
                     self.showingCapturedImageSheet = true
