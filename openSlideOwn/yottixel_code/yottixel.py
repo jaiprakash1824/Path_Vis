@@ -31,7 +31,7 @@ def run(query_slide_path_input):
     kmeans_clusters = 9
     percentage_selected = 15.0
     use_gpu = True
-    network_weights_address = './checkpoints/KimiaNetKerasWeights.h5'
+    network_weights_address = './yottixel_code/checkpoints/KimiaNetKerasWeights.h5'
     network_input_patch_width = 1000
     batch_size = 1024
     img_format = 'png'
