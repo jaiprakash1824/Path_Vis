@@ -5,9 +5,11 @@ from yottixel_code.search import main_search
 
 def run(query_slide_path_input):
     query_slide_path = query_slide_path_input
-    metadata_path = "/home/data/yottixel/DATABASE/sampled_metadata.csv"
-    database_dir = "/home/data/nejm_ai/DATABASE/"
-    database_features_path = "/home/data/yottixel/DATABASE/features.pkl"
+    # metadata_path = "/home/data/yottixel/DATABASE/sampled_metadata.csv"
+    metadata_path = "/Users/jaiprakashveerla/Documents/Jai/Search_Database/yottixel/DATABASE/sampled_metadata.csv"
+    # database_dir = "/home/data/nejm_ai/DATABASE/"
+    database_dir = "/Users/jaiprakashveerla/Documents/Jai/Data/DATABASE"
+    database_features_path = "/Users/jaiprakashveerla/Documents/Jai/Search_Database/yottixel/DATABASE/features.pkl"
     query_extension = "svs"
     k = 5
     subtype_search = False
