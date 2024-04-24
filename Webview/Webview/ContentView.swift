@@ -17,15 +17,62 @@ enum Tab {
 }
 
 struct ContentView: View {
-    
+    @Binding var results: Array<String>
+    @Environment(\.openWindow) private var openWindow
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
-    @State var webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
+    @State var searchResult: Array<String> = Array()
     
-    func doit(){
-        print("working wait")
+    
+    func fetchStringsFromAPI(apiURL: String, completion: @escaping ([String]?, Error?) -> Void) {
+        // Ensure the URL is valid
+        guard let url = URL(string: apiURL) else {
+            completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
+            return
+        }
+        
+        // Create a URLSession data task
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            // Handle the error scenario
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            // Ensure the data is not nil
+            guard let data = data else {
+                completion(nil, NSError(domain: "", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"]))
+                return
+            }
+            
+            // Attempt to decode the data into an array of strings
+            do {
+                let strings = try JSONDecoder().decode([String].self, from: data)
+                completion(strings, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+        
+        // Start the network request
+        task.resume()
+    }
+    
+    func getsearch() {
+        let apiURL = "http://172.20.10.3:5001/search/brain/GBM/TCGA-02-0007-01A-01-BS1.daf31c78-c900-400a-a63f-b25c53daf160.svs"
+        fetchStringsFromAPI(apiURL: apiURL) { strings, error in
+            if let error = error {
+                print("Error fetching strings: \(error)")
+            } else if let strings = strings {
+                DispatchQueue.main.async {  // Ensure UI updates on the main thread
+                    self.results = strings
+                    print("Received strings: \(strings)")
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -35,7 +82,7 @@ struct ContentView: View {
                     // Left side (25%)
                     VStack {
                         Button(action: {
-                            self.webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 1")
@@ -47,7 +94,7 @@ struct ContentView: View {
                     VStack {
                         // Your files content here
                         Button(action: {
-                            self.webViewURL = URL(string: "http://cse-133725.uta.edu:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 2")
@@ -74,19 +121,28 @@ struct ContentView: View {
                         }
                     }
                     self.capturedImage = image!
-                    print("Image captured ", image)
                     self.showingCapturedImageSheet = true
                 }.toolbar {
                     ToolbarItem(placement: .bottomOrnament) {
                         
                     }
                 }.ornament(visibility: .visible, attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-                    Button(action: {
-                        self.takeScreenshot = true
-                    }) {
-                        Label("", systemImage: "camera.viewfinder")
+                    HStack {
+                        Button(action: {
+                            print("open window Action")
+                            getsearch()
+                            openWindow(id: "SecondWindow")
+                        }) {
+                            Label("", systemImage: "eye")
+                        }
+                        .padding(.top, 50)
+                        Button(action: {
+                            self.takeScreenshot = true
+                        }) {
+                            Label("", systemImage: "camera.viewfinder")
+                        }
+                        .padding(.top, 50)
                     }
-                    .padding(.top, 50)
                 }
                 
             }.glassBackgroundEffect()
@@ -108,6 +164,6 @@ struct ContentView: View {
     }
 }
 
-#Preview(windowStyle: .automatic) {
-    ContentView()
-}
+//#Preview(windowStyle: .automatic) {
+//    ContentView()
+//}

@@ -9,11 +9,16 @@ import SwiftUI
 
 @main
 struct WebviewApp: App {
+    @State var results = ["A", "B", "C"]
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(results: $results)
         }
-
+        
+        WindowGroup(id: "SecondWindow") {
+            SecondView(results: $results)
+        }
+        
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
         }
