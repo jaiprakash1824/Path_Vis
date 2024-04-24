@@ -62,7 +62,7 @@ struct ContentView: View {
     }
     
     func getsearch() {
-        let apiURL = "http://172.20.10.3:5001/search/brain/GBM/TCGA-02-0007-01A-01-BS1.daf31c78-c900-400a-a63f-b25c53daf160.svs"
+        let apiURL = "http://172.20.10.3:5001/"+"search" + webViewURL.path
         fetchStringsFromAPI(apiURL: apiURL) { strings, error in
             if let error = error {
                 print("Error fetching strings: \(error)")
