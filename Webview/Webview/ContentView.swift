@@ -22,6 +22,7 @@ struct ContentView: View {
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
+    @State private var rootIP = "http://10.64.1.105:5001"
     @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
     @State var searchResult: Array<String> = Array()
@@ -62,7 +63,7 @@ struct ContentView: View {
     }
     
     func getsearch() {
-        let apiURL = "http://172.20.10.3:5001/"+"search" + webViewURL.path
+        let apiURL = rootIP+"/search" + webViewURL.path
         fetchStringsFromAPI(apiURL: apiURL) { strings, error in
             if let error = error {
                 print("Error fetching strings: \(error)")
@@ -70,6 +71,7 @@ struct ContentView: View {
                 DispatchQueue.main.async {  // Ensure UI updates on the main thread
                     self.results = strings
                     print("Received strings: \(strings)")
+                    openWindow(id: "SecondWindow")
                 }
             }
         }
@@ -82,7 +84,7 @@ struct ContentView: View {
                     // Left side (25%)
                     VStack {
                         Button(action: {
-                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.webViewURL = URL(string: rootIP+"/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 1")
@@ -94,7 +96,7 @@ struct ContentView: View {
                     VStack {
                         // Your files content here
                         Button(action: {
-                            self.webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+                            self.webViewURL = URL(string: rootIP+"/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
                             self.selection = Tab.viwer
                         }, label: {
                             Text("Image 2")
@@ -131,7 +133,6 @@ struct ContentView: View {
                         Button(action: {
                             print("open window Action")
                             getsearch()
-                            openWindow(id: "SecondWindow")
                         }) {
                             Label("", systemImage: "eye")
                         }

@@ -29,13 +29,14 @@ def prepare_slide(query_slide_path, save_dir, tissue_threshold, kmeans_clusters,
     if isfile(join(dirname(patch_save_dir), 'mosaic.h5')):
         print(f"\nGenerated mosaics for {query_slide_path} is found at {join(dirname(patch_save_dir), 'mosaic.h5')}. Skipping to feature extraction.\n")
         return
-    
+
     slide = openslide.open_slide(query_slide_path)
     print(f"{query_slide_path} loaded to be processed...")
 
     thumbnail = slide.get_thumbnail((500, 500))
     cthumbnail = clean_thumbnail(thumbnail)
     tissue_mask = (cthumbnail.mean(axis=2) != 255) * 1.0
+
 
     #TODO: add the logic for screen shots' `pathc_sizw` here.
     try:
