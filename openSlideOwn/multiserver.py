@@ -100,7 +100,8 @@ def create_app(config=None, config_file=None):
 
     # Helper functions
     def get_slide(path):
-        path = os.path.abspath(os.path.join(app.basedir, path))
+        if not os.path.exists(path):
+            path = os.path.abspath(os.path.join(app.basedir, path))
         if not path.startswith(app.basedir + os.path.sep):
             # Directory traversal
             abort(404)
@@ -142,7 +143,7 @@ def create_app(config=None, config_file=None):
 
     @app.route('/search/<path:path>')
     def get_search_results(path):
-        path = os.path.abspath(os.path.join(app.basedir, path))
+        # path = os.path.abspath(os.path.join(app.basedir, path))
         return jsonpickle.encode(yottixel.run(path))
 
     @app.route('/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')

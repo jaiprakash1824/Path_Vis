@@ -10,13 +10,18 @@ import SwiftUI
 @main
 struct WebviewApp: App {
     @State var results = ["A", "B", "C"]
+    @State var resultViweURL = ""
     var body: some Scene {
         WindowGroup {
             ContentView(results: $results)
         }
         
         WindowGroup(id: "SecondWindow") {
-            SecondView(results: $results)
+            SecondView(results: $results, resultViweURL: $resultViweURL)
+        }
+        
+        WindowGroup(id: "thridWindow") {
+            thridView(resultViweURL: $resultViweURL)
         }
         
         ImmersiveSpace(id: "ImmersiveSpace") {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		392FEC312BDD9B0200AA1181 /* thridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392FEC302BDD9B0200AA1181 /* thridView.swift */; };
 		3936D8292BD89F3A00DD644C /* SecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3936D8282BD89F3A00DD644C /* SecondView.swift */; };
 		39D7A8EC2BCF46C200C07C07 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 39D7A8EB2BCF46C200C07C07 /* RealityKitContent */; };
 		39D7A8EE2BCF46C200C07C07 /* WebviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D7A8ED2BCF46C200C07C07 /* WebviewApp.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		392FEC302BDD9B0200AA1181 /* thridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = thridView.swift; sourceTree = "<group>"; };
 		3936D8282BD89F3A00DD644C /* SecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondView.swift; sourceTree = "<group>"; };
 		39D7A8E62BCF46C200C07C07 /* Webview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Webview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D7A8EA2BCF46C200C07C07 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				39D7A8F52BCF46C300C07C07 /* Preview Content */,
 				39D7A8FE2BCF490700C07C07 /* WebView.swift */,
 				3936D8282BD89F3A00DD644C /* SecondView.swift */,
+				392FEC302BDD9B0200AA1181 /* thridView.swift */,
 			);
 			path = Webview;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			files = (
 				39D7A8F02BCF46C200C07C07 /* ContentView.swift in Sources */,
 				3936D8292BD89F3A00DD644C /* SecondView.swift in Sources */,
+				392FEC312BDD9B0200AA1181 /* thridView.swift in Sources */,
 				39D7A8FF2BCF490700C07C07 /* WebView.swift in Sources */,
 				39D7A8EE2BCF46C200C07C07 /* WebviewApp.swift in Sources */,
 				39D7A8F22BCF46C200C07C07 /* ImmersiveView.swift in Sources */,

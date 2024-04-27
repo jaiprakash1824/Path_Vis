@@ -64,7 +64,7 @@ def main_search(query_slide_path, save_dir, database_dir, database_features_path
     sites = [splitext(bob.site)[0] for _, bob in results]
     diags = [splitext(bob.diagnosis)[0] for _, bob in results]
     dists = [dist for dist, _ in results]
-    paths = [join(database_dir, bob.site, bob.diagnosis, bob.file_name) for _, bob in results]
+    paths = [join( bob.site, bob.diagnosis, bob.file_name) for _, bob in results]
     links = [VIEW_URL + metadata.loc[bob.file_name, "id"] for _, bob in results]
     df_dict = {
         'Retreived Slide': names,

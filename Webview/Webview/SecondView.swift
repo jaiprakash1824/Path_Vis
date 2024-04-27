@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+
 struct SecondView: View {
-    
+    @Environment(\.openWindow) private var openWindow
     @Binding var results: Array<String>
+    @Binding var resultViweURL: String
     
     var body: some View {
         VStack(alignment: .center) {
@@ -17,7 +19,10 @@ struct SecondView: View {
                 .font(.title)
             List(results, id: \.self) { result in
                 Button(action: {
-                    print(result)
+                    DispatchQueue.main.async {  // Ensure UI updates on the main thread
+                        self.resultViweURL = result
+                        openWindow(id: "thridWindow")
+                    }
                 }) {
                     HStack {
                         Text(result)
