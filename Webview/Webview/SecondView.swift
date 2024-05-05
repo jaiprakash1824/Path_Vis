@@ -12,6 +12,7 @@ struct SecondView: View {
     @Environment(\.openWindow) private var openWindow
     @Binding var results: Array<String>
     @Binding var resultViweURL: String
+    @EnvironmentObject var dataStore: DataStore
     
     var body: some View {
         VStack(alignment: .center) {
@@ -21,7 +22,11 @@ struct SecondView: View {
                 Button(action: {
                     DispatchQueue.main.async {  // Ensure UI updates on the main thread
                         self.resultViweURL = result
-                        openWindow(id: "thridWindow")
+//                        openWindow(id: "thridWindow")
+                        var uniqueID = UUID()
+                        var displayObject = ResultsDisplay(id: uniqueID, name: result)
+                        dataStore.notes.append(displayObject)
+                        openWindow(value: uniqueID)
                     }
                 }) {
                     HStack {
