@@ -13,7 +13,7 @@ struct thridView: View {
     let noteId: UUID?
     //    @Binding var resultViweURL: String
     @State private var takeScreenshot = false
-    @State private var rootIP = "http://172.20.10.3:5001/"
+    @State private var rootIP = "http://127.0.0.1:5001/"
     
     func getURL(path:String) -> URL {
         //        print(resultViweURL)

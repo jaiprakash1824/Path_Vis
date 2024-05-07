@@ -22,10 +22,13 @@ struct ContentView: View {
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
-    @State private var rootIP = "http://172.20.10.3:5001"
-    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+    //    @State private var rootIP = "http://172.20.10.3:5001"
+    //    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+    @State private var rootIP = "http://127.0.0.1:5001"
+    @State var webViewURL = URL(string: "http://127.0.0.1:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
     @State var searchResult: Array<String> = Array()
+    @State var displayImages: Array<String> = Array()
     
     
     func fetchStringsFromAPI(apiURL: String, completion: @escaping ([String]?, Error?) -> Void) {
@@ -78,6 +81,21 @@ struct ContentView: View {
         }
     }
     
+    func getDisplayImages() {
+        let apiURL = rootIP+"/files/brain/GBM"
+        print(apiURL)
+        fetchStringsFromAPI(apiURL: apiURL) { strings, error in
+            if let error = error {
+                print("Error fetching strings: \(error)")
+            } else if let strings = strings {
+                DispatchQueue.main.async {  // Ensure UI updates on the main thread
+                    self.displayImages = strings
+                    print("Received strings: \(strings)")
+                }
+            }
+        }
+    }
+    
     var body: some View {
         TabView(selection: $selection) {
             GeometryReader { geometry in
@@ -94,16 +112,35 @@ struct ContentView: View {
                     .frame(width: geometry.size.width * 0.25)
                     .background(Color.gray)
                     // Right side (75%)
-                    VStack {
-                        // Your files content here
-                        Button(action: {
-                            self.webViewURL = URL(string: rootIP+"/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
-                            self.selection = Tab.viwer
-                        }, label: {
-                            Text("Image 2")
-                        })
+                    List {
+                        ForEach(displayImages, id: \.self) { imageUrl in
+                            Button(action: {
+                                self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
+                                self.selection = Tab.viwer
+                            }, label: {
+                                HStack {
+                                    AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 300)
+                                    } placeholder: {
+                                        // Placeholder content while the image is loading
+                                        ProgressView()
+                                    }
+                                    let components = imageUrl.components(separatedBy: "/")
+                                    if let lastComponent = components.last {
+                                        Text(imageUrl)
+                                            .padding()
+                                            .foregroundColor(.white)
+                                            .background(Color.blue)
+                                            .cornerRadius(5)// Output: TCGA-06-0137-01A-02-BS2.1ecbdd52-f82b-4621-9062-d4e61bcd0469.svs
+                                    }
+                                }
+                            })
+                        }
+                        .frame(width: geometry.size.width * 0.75)
                     }
-                    .frame(width: geometry.size.width * 0.75)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -161,6 +198,8 @@ struct ContentView: View {
             Image(uiImage: self.capturedImage)
                 .resizable()
                 .scaledToFit()
+        }.onAppear {
+            self.getDisplayImages()
         }
         
     }
