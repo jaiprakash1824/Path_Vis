@@ -146,6 +146,23 @@ def create_app(config=None, config_file=None):
         # path = os.path.abspath(os.path.join(app.basedir, path))
         return jsonpickle.encode(yottixel.run(path))
 
+    @app.route('/files/<path:path>')
+    def get_files_from_path(path):
+        print(app.basedir + path)
+        res = []
+        contents = os.listdir(app.basedir + "/" + path)
+        for item in contents:
+            # Construct the full path of each item
+            item_path = os.path.join(app.basedir + "/" + path, item)
+            # Check if the item is a file
+            if os.path.isfile(item_path):
+                res.append(item_path.replace("/Users/jaiprakashveerla/Documents/Jai/Data/DATABASE",""))
+            # If the item is a directory, recursively call the function
+            elif os.path.isdir(item_path):
+                # res.extend(get_files_in_directory(item_path))
+                print("dir exist ", item_path)
+        return res
+
     @app.route('/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
     def tile(path, level, col, row, format):
         slide = get_slide(path)

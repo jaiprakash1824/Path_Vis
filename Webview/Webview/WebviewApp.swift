@@ -20,6 +20,7 @@ struct WebviewApp: App {
         WindowGroup(id: "SecondWindow") {
             SecondView(results: $results, resultViweURL: $resultViweURL).environmentObject(dataStore)
         }
+        .defaultSize(width: 600, height: 400)
         
 //        WindowGroup(id: "thridWindow") {
 //            thridView(resultViweURL: $resultViweURL)
@@ -28,7 +29,7 @@ struct WebviewApp: App {
         WindowGroup("Note", for: ResultsDisplay.ID.self) { $noteId in
             thridView(noteId: noteId)
                         .environmentObject(dataStore)
-                }
+        }
         
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()

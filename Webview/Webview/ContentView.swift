@@ -22,8 +22,8 @@ struct ContentView: View {
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
-    @State private var rootIP = "http://129.107.206.21:5001"
-    @State var webViewURL = URL(string: "http://129.107.206.21:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
+    @State private var rootIP = "http://172.20.10.3:5001"
+    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
     @State var searchResult: Array<String> = Array()
     

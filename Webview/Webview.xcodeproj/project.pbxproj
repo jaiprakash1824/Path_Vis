@@ -22,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		392FEC302BDD9B0200AA1181 /* thridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = thridView.swift; sourceTree = "<group>"; };
+		392FEC372BE8868100AA1181 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
 		3936D8282BD89F3A00DD644C /* SecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondView.swift; sourceTree = "<group>"; };
 		39D7A8E62BCF46C200C07C07 /* Webview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Webview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D7A8EA2BCF46C200C07C07 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -48,12 +49,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		392FEC362BE8868000AA1181 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				392FEC372BE8868100AA1181 /* RealityKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		39D7A8DD2BCF46C200C07C07 = {
 			isa = PBXGroup;
 			children = (
 				39D7A8E82BCF46C200C07C07 /* Webview */,
 				39D7A8E92BCF46C200C07C07 /* Packages */,
 				39D7A8E72BCF46C200C07C07 /* Products */,
+				392FEC362BE8868000AA1181 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
