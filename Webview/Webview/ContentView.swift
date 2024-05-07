@@ -29,6 +29,7 @@ struct ContentView: View {
     @State var selection: Tab = Tab.home
     @State var searchResult: Array<String> = Array()
     @State var displayImages: Array<String> = Array()
+    @State var folderToBeDisplayed: Array<String> = ["brain/GBM","brain/LGG","breast/BRCA","colon/COAD", "liver/CHOL", "liver/LIHC", "lung/LUAD", "lung/LUSC"]
     
     
     func fetchStringsFromAPI(apiURL: String, completion: @escaping ([String]?, Error?) -> Void) {
@@ -81,8 +82,8 @@ struct ContentView: View {
         }
     }
     
-    func getDisplayImages() {
-        let apiURL = rootIP+"/files/brain/GBM"
+    func getDisplayImages(path: String) {
+        let apiURL = rootIP+"/files/"+path
         print(apiURL)
         fetchStringsFromAPI(apiURL: apiURL) { strings, error in
             if let error = error {
@@ -101,45 +102,64 @@ struct ContentView: View {
             GeometryReader { geometry in
                 HStack(spacing: 0) {
                     // Left side (25%)
-                    VStack {
-                        Button(action: {
-                            self.webViewURL = URL(string: rootIP+"/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
-                            self.selection = Tab.viwer
-                        }, label: {
-                            Text("Image 1")
-                        })
+                    List {
+                        ForEach(folderToBeDisplayed, id: \.self) { item in
+                            Button(action: {
+                                getDisplayImages(path: item)
+                            }, label: {
+                                Text(item)
+                            })
+                        }
                     }
+                    .padding(.all)
                     .frame(width: geometry.size.width * 0.25)
                     .background(Color.gray)
                     // Right side (75%)
+                    //                    ScrollView(.vertical, showsIndicators: true) {
+                    //                        VStack {
+                    //                            ForEach(displayImages, id: \.self) { imageUrl in
+                    //                                Button(action: {
+                    //                                    self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
+                    //                                    self.selection = Tab.viwer
+                    //                                }, label: {
+                    //                                    AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
+                    //                                        image
+                    //                                            .resizable()
+                    //                                            .scaledToFit()
+                    //                                            .frame(height: 150)
+                    //                                    } placeholder: {
+                    //                                        // Placeholder content while the image is loading
+                    //                                        ProgressView()
+                    //                                    }
+                    //                                    let components = imageUrl.components(separatedBy: "/")
+                    //                                    if let lastComponent = components.last {
+                    //                                        Text(lastComponent)
+                    //                                            .padding(.vertical, 5)
+                    //                                            .foregroundColor(.white)
+                    //                                    }
+                    //
+                    //                                })
+                    //                            }
+                    //                            .frame(width: geometry.size.width * 0.75)
+                    //                        }
+                    //                    }
                     List {
                         ForEach(displayImages, id: \.self) { imageUrl in
                             Button(action: {
                                 self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
                                 self.selection = Tab.viwer
                             }, label: {
-                                HStack {
-                                    AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 300)
-                                    } placeholder: {
-                                        // Placeholder content while the image is loading
-                                        ProgressView()
-                                    }
-                                    let components = imageUrl.components(separatedBy: "/")
-                                    if let lastComponent = components.last {
-                                        Text(imageUrl)
-                                            .padding()
-                                            .foregroundColor(.white)
-                                            .background(Color.blue)
-                                            .cornerRadius(5)// Output: TCGA-06-0137-01A-02-BS2.1ecbdd52-f82b-4621-9062-d4e61bcd0469.svs
-                                    }
+                                //                                AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
+                                let components = imageUrl.components(separatedBy: "/")
+                                if let lastComponent = components.last {
+                                    Text(lastComponent)
+                                        .padding(.vertical, 5)
+                                        .foregroundColor(.white)
                                 }
+                                
                             })
+                            
                         }
-                        .frame(width: geometry.size.width * 0.75)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -198,8 +218,6 @@ struct ContentView: View {
             Image(uiImage: self.capturedImage)
                 .resizable()
                 .scaledToFit()
-        }.onAppear {
-            self.getDisplayImages()
         }
         
     }
