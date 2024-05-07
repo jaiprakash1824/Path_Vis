@@ -69,6 +69,7 @@ struct ContentView: View {
     func getsearch() {
         let apiURL = rootIP+"/search" + webViewURL.path
         print(apiURL)
+        openWindow(id: "SecondWindow")
         fetchStringsFromAPI(apiURL: apiURL) { strings, error in
             if let error = error {
                 print("Error fetching strings: \(error)")
@@ -76,7 +77,6 @@ struct ContentView: View {
                 DispatchQueue.main.async {  // Ensure UI updates on the main thread
                     self.results = strings
                     print("Received strings: \(strings)")
-                    openWindow(id: "SecondWindow")
                 }
             }
         }
@@ -192,7 +192,7 @@ struct ContentView: View {
                             print("open window Action")
                             getsearch()
                         }) {
-                            Label("", systemImage: "eye")
+                            Label("", systemImage: "magnifyingglass")
                         }
                         .padding(.top, 50)
                         Button(action: {
