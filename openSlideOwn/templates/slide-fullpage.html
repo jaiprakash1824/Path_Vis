@@ -3,26 +3,40 @@
 <title>{{ slide_filename }}</title>
 
 <style type="text/css">
-html {
-    overflow: hidden;
-}
-body {
-    margin: 0;
-    padding: 0;
-}
-div#view {
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    color: white;
+    html {
+        overflow: hidden;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    div#view {
+        position: absolute;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        color: white;
+        padding: 10px;
+    }
+    #log {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 1000px; /* Adjust the width as needed */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for better visibility */
+    z-index: 1000; /* Ensure it's above other elements */
 }
 
 </style>
 
 <div id="view"></div>
+<div id="log"></div>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='openseadragon.js') }}"></script>
@@ -31,43 +45,89 @@ div#view {
 <script type="text/javascript" src="{{ url_for('static', filename='openseadragonScreenshot.js') }}"></script>
 
 <script type="text/javascript">
-$(function() {
-    var viewer = new OpenSeadragon({
-        id: "view",
-        tileSources: "{{ slide_url }}",
-        prefixUrl: "{{ url_for('static', filename='images/') }}",
-        showNavigator: true,
-        navigatorRotate: false,
-        showRotationControl: false,
-        showHomeControl: false,
-        showFullPageControl: false,
-        showZoomControl: false,
-        animationTime: 0.5,
-        blendTime: 0.1,
-        constrainDuringPan: true,
-        maxZoomPixelRatio: 2,
-        minZoomImageRatio: 1,
-        visibilityRatio: 1,
-        zoomPerScroll: 2,
-        timeout: 120000,
-        crossOriginPolicy: "Anonymous"
-    });
+    $(function () {
+        var viewer = new OpenSeadragon({
+            id: "view",
+            tileSources: "{{ slide_url }}",
+            prefixUrl: "{{ url_for('static', filename='images/') }}",
+            showNavigator: true,
+            navigatorRotate: false,
+            showRotationControl: false,
+            showHomeControl: false,
+            showFullPageControl: false,
+            showZoomControl: false,
+            animationTime: 0.5,
+            blendTime: 0.1,
+            constrainDuringPan: true,
+            maxZoomPixelRatio: 2,
+            minZoomImageRatio: 1,
+            visibilityRatio: 1,
+            zoomPerScroll: 2,
+            timeout: 120000,
+            crossOriginPolicy: "Anonymous"
+        });
 
-    var mpp = parseFloat("{{ slide_mpp }}");
-    viewer.scalebar({
-        pixelsPerMeter: mpp ? (1e6 / mpp) : 0,
-        xOffset: 10,
-        yOffset: 10,
-        barThickness: 3,
-        color: '#555555',
-        fontColor: '#333333',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    });
-<!--    viewer.screenshot({-->
-<!--        showOptions: true, // Default is false-->
-<!--        keyboardShortcut: 'p', // Default is null-->
-<!--        showScreenshotControl: true // Default is true-->
+        var mpp = parseFloat("{{ slide_mpp }}");
+        viewer.scalebar({
+            pixelsPerMeter: mpp ? (1e6 / mpp) : 0,
+            xOffset: 10,
+            yOffset: 10,
+            barThickness: 3,
+            color: '#555555',
+            fontColor: '#333333',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        });
 
-<!--    });-->
-});
+
+        function sendGazeData(x, y, zoom) {
+            fetch('/gaze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ x: x, y: y, zoom: zoom })
+            })
+                .then(response => response.json())
+                .then(data => console.log(data));
+        }
+
+        function pointToString(point) {
+            return point.x.toPrecision(4) + "," + point.y.toPrecision(4);
+        }
+
+        function onMouseTrackerMove(event) {
+            var viewerX = event.position.x;
+            var viewerY = event.position.y;
+            var windowPoint = new OpenSeadragon.Point(viewerX, viewerY);
+            console.log("cursorWindowPosition --> " + pointToString(windowPoint));
+            var containerPoint = windowPoint.minus(OpenSeadragon.getElementPosition(viewer.element));
+            // console.log("cursorContainerPosition --> " + pointToString(containerPoint));
+            var image1 = viewer.world.getItemAt(0);
+            var imagePoint = image1.windowToImageCoordinates(windowPoint);
+            // console.log("cursorImage1Position --> " + pointToString(imagePoint));
+            var viewportPoint = viewer.viewport.windowToViewportCoordinates(windowPoint);
+            // console.log("cursorViewportPosition --> " + pointToString(viewportPoint));
+            $("#log").text("(" + pointToString(containerPoint) + "),  (" + pointToString(imagePoint) + "),  (" + pointToString(viewportPoint) + ")");
+        }
+
+        mouseTracker = new OpenSeadragon.MouseTracker({
+            element: document,
+            moveHandler: onMouseTrackerMove
+        }).setTracking(true);
+
+        viewer.addHandler('canvas-click', function (event) {
+            // The canvas-click event gives us a position in web coordinates.
+            var webPoint = event.position;
+
+            // Convert that to viewport coordinates, the lingua franca of OpenSeadragon coordinates.
+            var viewportPoint = viewer.viewport.pointFromPixel(webPoint);
+
+            // Convert from viewport coordinates to image coordinates.
+            var imagePoint = viewer.viewport.viewportToImageCoordinates(viewportPoint);
+
+            // Show the results.
+            $("#log").text(webPoint.toString() + ",  " + viewportPoint.toString() + ",  " + imagePoint.toString());
+            console.log(webPoint.toString(), viewportPoint.toString(), imagePoint.toString());
+        });
+    });
 </script>
