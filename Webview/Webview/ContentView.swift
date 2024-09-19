@@ -220,9 +220,16 @@ struct ContentView: View {
                 .scaledToFit()
         }
         
+        RealityView { content in
+            // Add the initial RealityKit content
+            if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
+                content.add(scene)
+            }
+        }.frame(height: 0)
+        
     }
 }
 
-//#Preview(windowStyle: .automatic) {
-//    ContentView()
-//}
+#Preview(windowStyle: .automatic) {
+    ContentView(results: .constant(["a","b"]))
+}
