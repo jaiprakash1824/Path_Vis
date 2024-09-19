@@ -7,44 +7,53 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    def Sphere "Sphere_Right" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-    )
-    {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
-
-    def Sphere "Sphere_Left" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-    )
-    {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
-
+    reorder nameChildren = ["Sphere_Left", "pathvis", "Sphere_Right", "GridMaterial"]
     def "GridMaterial" (
         active = true
-        prepend references = @Materials/GridMaterial.usda@
+        references = @Materials/GridMaterial.usda@
     )
     {
         float3 xformOp:scale = (1, 1, 1)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "pathvis" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (9.321122e-10, -8.326672e-17, 0)
+        }
+        references = @pathvis.usdc@
+    )
+    {
+        reorder nameChildren = ["Camera", "sirimaterial", "Cube"]
+        quatf xformOp:orient = (1, 4.660561e-10, -4.163336e-17, 1.940348e-26)
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (-0.26510778, -0.20148967, 0.03620007)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def "Cube" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            references = @pathvis.usdc@</Cube/Cube>
+        )
+        {
+            rel material:binding = </Root/pathvis/sirimaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            float3 xformOp:scale = (0.08, 0.08, 0.08)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def "sirimaterial" (
+            active = true
+            references = @pathvis.usdc@</_materials/sirimaterial>
+        )
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 109.5)
+            float2 ui:nodegraph:realitykit:subgraphOutputs:size = (182, 99)
+        }
     }
 }
 

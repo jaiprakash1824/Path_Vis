@@ -30,6 +30,7 @@ struct ContentView: View {
     @State var searchResult: Array<String> = Array()
     @State var displayImages: Array<String> = Array()
     @State var folderToBeDisplayed: Array<String> = ["brain/GBM","brain/LGG","breast/BRCA","colon/COAD", "liver/CHOL", "liver/LIHC", "lung/LUAD", "lung/LUSC"]
+    @State private var sphereEntity: Entity?
     
     
     func fetchStringsFromAPI(apiURL: String, completion: @escaping ([String]?, Error?) -> Void) {
@@ -98,136 +99,136 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $selection) {
-            GeometryReader { geometry in
-                HStack(spacing: 0) {
-                    // Left side (25%)
-                    List {
-                        ForEach(folderToBeDisplayed, id: \.self) { item in
-                            Button(action: {
-                                getDisplayImages(path: item)
-                            }, label: {
-                                Text(item)
-                            })
-                        }
-                    }
-                    .padding(.all)
-                    .frame(width: geometry.size.width * 0.25)
-                    .background(Color.gray)
-                    // Right side (75%)
-                    //                    ScrollView(.vertical, showsIndicators: true) {
-                    //                        VStack {
-                    //                            ForEach(displayImages, id: \.self) { imageUrl in
-                    //                                Button(action: {
-                    //                                    self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
-                    //                                    self.selection = Tab.viwer
-                    //                                }, label: {
-                    //                                    AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
-                    //                                        image
-                    //                                            .resizable()
-                    //                                            .scaledToFit()
-                    //                                            .frame(height: 150)
-                    //                                    } placeholder: {
-                    //                                        // Placeholder content while the image is loading
-                    //                                        ProgressView()
-                    //                                    }
-                    //                                    let components = imageUrl.components(separatedBy: "/")
-                    //                                    if let lastComponent = components.last {
-                    //                                        Text(lastComponent)
-                    //                                            .padding(.vertical, 5)
-                    //                                            .foregroundColor(.white)
-                    //                                    }
-                    //
-                    //                                })
-                    //                            }
-                    //                            .frame(width: geometry.size.width * 0.75)
-                    //                        }
-                    //                    }
-                    List {
-                        ForEach(displayImages, id: \.self) { imageUrl in
-                            Button(action: {
-                                self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
-                                self.selection = Tab.viwer
-                            }, label: {
-                                //                                AsyncImage(url: URL(string: "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")) { image in
-                                let components = imageUrl.components(separatedBy: "/")
-                                if let lastComponent = components.last {
-                                    Text(lastComponent)
-                                        .padding(.vertical, 5)
-                                        .foregroundColor(.white)
-                                }
-                                
-                            })
-                            
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-            .tabItem {
-                Label("Home", systemImage: "house")
-            }.tag(Tab.home)
+        ZStack {
             VStack {
-                WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
-                    DispatchQueue.main.async {
-                        if let validImage = image {
-                            self.capturedImage = validImage
-                            print("Image captured ", validImage)
+                TabView(selection: $selection) {
+                    GeometryReader { geometry in
+                        HStack(spacing: 0) {
+                            // Left side (25%)
+                            List {
+                                ForEach(folderToBeDisplayed, id: \.self) { item in
+                                    Button(action: {
+                                        getDisplayImages(path: item)
+                                    }, label: {
+                                        Text(item)
+                                    })
+                                }
+                            }
+                            .padding(.all)
+                            .frame(width: geometry.size.width * 0.25)
+                            .background(Color.gray)
                             
-                            // Save the image to the Photos album
-                            UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
-                            
+                            // Right side (75%)
+                            List {
+                                ForEach(displayImages, id: \.self) { imageUrl in
+                                    Button(action: {
+                                        self.webViewURL = URL(string: "\(rootIP)\(imageUrl)")!
+                                        self.selection = Tab.viwer
+                                    }, label: {
+                                        let components = imageUrl.components(separatedBy: "/")
+                                        if let lastComponent = components.last {
+                                            Text(lastComponent)
+                                                .padding(.vertical, 5)
+                                                .foregroundColor(.white)
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }.tag(Tab.home)
+                    
+                    VStack {
+                        WebView(url: webViewURL, takeScreenshot: $takeScreenshot) { image in
+                            DispatchQueue.main.async {
+                                if let validImage = image {
+                                    self.capturedImage = validImage
+                                    UIImageWriteToSavedPhotosAlbum(validImage, nil, nil, nil)
+                                    self.showingCapturedImageSheet = true
+                                }
+                            }
+                            self.capturedImage = image!
                             self.showingCapturedImageSheet = true
                         }
-                    }
-                    self.capturedImage = image!
-                    self.showingCapturedImageSheet = true
-                }.toolbar {
-                    ToolbarItem(placement: .bottomOrnament) {
+                        .toolbar {
+                            ToolbarItem(placement: .bottomOrnament) { }
+                        }
+                        .ornament(visibility: .visible, attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
+                            HStack {
+                                Button(action: {
+                                    getsearch()
+                                }) {
+                                    Label("", systemImage: "magnifyingglass")
+                                }
+                                .padding(.top, 50)
+                                
+                                Button(action: {
+                                    self.takeScreenshot = true
+                                }) {
+                                    Label("", systemImage: "camera.viewfinder")
+                                }
+                                .padding(.top, 50)
+                            }
+                        }
                         
                     }
-                }.ornament(visibility: .visible, attachmentAnchor: .scene(.bottom), contentAlignment: .center) {
-                    HStack {
-                        Button(action: {
-                            print("open window Action")
-                            getsearch()
-                        }) {
-                            Label("", systemImage: "magnifyingglass")
-                        }
-                        .padding(.top, 50)
-                        Button(action: {
-                            self.takeScreenshot = true
-                        }) {
-                            Label("", systemImage: "camera.viewfinder")
-                        }
-                        .padding(.top, 50)
+                    .glassBackgroundEffect()
+                    .tabItem {
+                        Label("Viewer", systemImage: "eye")
+                    }
+                    .tag(Tab.viwer)
+                }
+                .sheet(isPresented: $showingCapturedImageSheet) {
+                    Button(action: {
+                        self.showingCapturedImageSheet = false
+                    }, label: {
+                        Text("Close")
+                    })
+                    Image(uiImage: self.capturedImage)
+                        .resizable()
+                        .scaledToFit()
+                }
+            }
+            
+            // RealityKit content, with disabled hit-testing
+            RealityView { content in
+                if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
+                    content.add(scene)
+                    
+                    if let sphere = scene.findEntity(named: "Sphere") {
+                        print("setting sphere to local var completed")
+                        sphereEntity = sphere
                     }
                 }
-                
-            }.glassBackgroundEffect()
-                .tabItem {
-                    Label("Viewer", systemImage: "eye")
-                }.tag(Tab.viwer)
-        }.sheet(isPresented: $showingCapturedImageSheet) {
-            Button(action: {
-                self.showingCapturedImageSheet = false
-            }, label: {
-                Text("close")
-            })
-            // This is the sheet presentation of the captured image
-            Image(uiImage: self.capturedImage)
-                .resizable()
-                .scaledToFit()
+            }
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                // Trigger the movement of the sphere
+                moveSphereRight()
+            }
+            .frame(height: 0)  // Keep the RealityView out of sight if you don't need it right now
+            .allowsHitTesting(false)  // Disable hit-testing for RealityView
+        }
+        .edgesIgnoringSafeArea(.all)
+    }
+    
+    func moveSphereRight() {
+        guard let sphere = sphereEntity else {
+            print("Sphere entity not found")
+            return
         }
         
-        RealityView { content in
-            // Add the initial RealityKit content
-            if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
-                content.add(scene)
-            }
-        }.frame(height: 0)
+        // Define the rightward movement animation
+        let moveRight = Transform(translation: SIMD3(x: 1, y: 0, z: 0)) // Move 1 unit to the right
+        let duration: TimeInterval = 2.0  // Duration of the movement
         
+        // Animate the sphere to the right over the specified duration
+        sphere.move(to: moveRight, relativeTo: sphere.parent, duration: duration, timingFunction: .linear)
     }
+    
 }
 
 #Preview(windowStyle: .automatic) {
