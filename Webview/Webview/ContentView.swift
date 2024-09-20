@@ -171,6 +171,13 @@ struct ContentView: View {
                                     Label("", systemImage: "camera.viewfinder")
                                 }
                                 .padding(.top, 50)
+                                
+                                Button(action: {
+                                    self.moveSphereRight()
+                                }) {
+                                    Label("", systemImage: "camera.viewfinder")
+                                }
+                                .padding(.top, 50)
                             }
                         }
                         
@@ -198,17 +205,13 @@ struct ContentView: View {
                 if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
                     content.add(scene)
                     
-                    if let sphere = scene.findEntity(named: "Sphere") {
+                    if let sphere = scene.findEntity(named: "pathvis") {
                         print("setting sphere to local var completed")
                         sphereEntity = sphere
                     }
                 }
             }
             .edgesIgnoringSafeArea(.all)
-            .onAppear {
-                // Trigger the movement of the sphere
-                moveSphereRight()
-            }
             .frame(height: 0)  // Keep the RealityView out of sight if you don't need it right now
             .allowsHitTesting(false)  // Disable hit-testing for RealityView
         }
@@ -216,13 +219,14 @@ struct ContentView: View {
     }
     
     func moveSphereRight() {
+        
         guard let sphere = sphereEntity else {
             print("Sphere entity not found")
             return
         }
         
         // Define the rightward movement animation
-        let moveRight = Transform(translation: SIMD3(x: 1, y: 0, z: 0)) // Move 1 unit to the right
+        let moveRight = Transform(translation: SIMD3(x: 0.01, y: 0, z: 0)) // Move 1 unit to the right
         let duration: TimeInterval = 2.0  // Duration of the movement
         
         // Animate the sphere to the right over the specified duration
