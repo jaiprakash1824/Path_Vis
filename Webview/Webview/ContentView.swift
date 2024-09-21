@@ -1,14 +1,8 @@
-//
-//  ContentView.swift
-//  Webview
-//
-//  Created by Jai Prakash Veerla on 4/16/24.
-//
-
 import SwiftUI
 import RealityKit
 import RealityKitContent
 import WebKit
+import Speech // Import Speech framework for speech recognition
 
 enum Tab {
     case viwer
@@ -22,8 +16,6 @@ struct ContentView: View {
     @State private var takeScreenshot = false
     @State private var capturedImage: UIImage = UIImage()
     @State private var showingCapturedImageSheet = false
-    //    @State private var rootIP = "http://172.20.10.3:5001"
-    //    @State var webViewURL = URL(string: "http://172.20.10.3:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State private var rootIP = "http://127.0.0.1:5001"
     @State var webViewURL = URL(string: "http://127.0.0.1:5001/brain/GBM/TCGA-02-0004-01Z-00-DX1.d8189fdc-c669-48d5-bc9e-8ddf104caff6.svs")!
     @State var selection: Tab = Tab.home
@@ -32,29 +24,29 @@ struct ContentView: View {
     @State var folderToBeDisplayed: Array<String> = ["brain/GBM","brain/LGG","breast/BRCA","colon/COAD", "liver/CHOL", "liver/LIHC", "lung/LUAD", "lung/LUSC"]
     @State private var sphereEntity: Entity?
     
+    // Speech recognition-related variables
+    @State private var audioEngine = AVAudioEngine()
+    @State private var speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+    @State private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    @State private var recognitionTask: SFSpeechRecognitionTask?
     
     func fetchStringsFromAPI(apiURL: String, completion: @escaping ([String]?, Error?) -> Void) {
-        // Ensure the URL is valid
         guard let url = URL(string: apiURL) else {
             completion(nil, NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
             return
         }
         
-        // Create a URLSession data task
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            // Handle the error scenario
             if let error = error {
                 completion(nil, error)
                 return
             }
             
-            // Ensure the data is not nil
             guard let data = data else {
                 completion(nil, NSError(domain: "", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"]))
                 return
             }
             
-            // Attempt to decode the data into an array of strings
             do {
                 let strings = try JSONDecoder().decode([String].self, from: data)
                 completion(strings, nil)
@@ -63,7 +55,6 @@ struct ContentView: View {
             }
         }
         
-        // Start the network request
         task.resume()
     }
     
@@ -117,7 +108,6 @@ struct ContentView: View {
                             .padding(.all)
                             .frame(width: geometry.size.width * 0.25)
                             .background(Color.gray)
-                            
                             // Right side (75%)
                             List {
                                 ForEach(displayImages, id: \.self) { imageUrl in
@@ -175,7 +165,14 @@ struct ContentView: View {
                                 Button(action: {
                                     self.moveSphereRight()
                                 }) {
-                                    Label("", systemImage: "camera.viewfinder")
+                                    Label("", systemImage: "arrow.right")
+                                }
+                                .padding(.top, 50)
+                                
+                                Button(action: {
+                                    self.microphoneRecordAndTranslate()
+                                }) {
+                                    Label("Record", systemImage: "mic.fill")
                                 }
                                 .padding(.top, 50)
                             }
@@ -216,10 +213,91 @@ struct ContentView: View {
             .allowsHitTesting(false)  // Disable hit-testing for RealityView
         }
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            // Request permission for microphone and speech recognition
+            requestPermissions()
+        }
+    }
+    
+    func requestPermissions() {
+        // Request microphone and speech recognition permissions
+        SFSpeechRecognizer.requestAuthorization { authStatus in
+            switch authStatus {
+            case .authorized:
+                print("Speech recognition authorized")
+            case .denied:
+                print("Speech recognition denied")
+            case .restricted:
+                print("Speech recognition restricted")
+            case .notDetermined:
+                print("Speech recognition not determined")
+            @unknown default:
+                fatalError("Unknown speech recognition status")
+            }
+        }
+        
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            if granted {
+                print("Microphone permission granted")
+            } else {
+                print("Microphone permission denied")
+            }
+        }
+    }
+    
+    // Method to record audio and transcribe it
+    func microphoneRecordAndTranslate() {
+        // Make sure there isn't a current recognition task running
+        if recognitionTask != nil {
+            recognitionTask?.cancel()
+            recognitionTask = nil
+        }
+        
+        // Configure the audio session
+        let audioSession = AVAudioSession.sharedInstance()
+        try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+        try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        
+        // Create the recognition request
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        
+        guard let recognitionRequest = recognitionRequest else {
+            fatalError("Unable to create recognition request")
+        }
+        
+        // Create the input node from the audio engine
+        let inputNode = audioEngine.inputNode
+        recognitionRequest.shouldReportPartialResults = true
+        
+        // Start the speech recognition task
+        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
+            if let result = result {
+                // Print the transcribed text
+                let transcription = result.bestTranscription.formattedString
+                print("Transcribed text: \(transcription)")
+            }
+            
+            if error != nil || result?.isFinal == true {
+                // Stop the audio engine and recognition task when complete
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+                self.recognitionRequest = nil
+                self.recognitionTask = nil
+            }
+        }
+        
+        // Install a tap on the audio engine's input node to capture audio
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, when in
+            recognitionRequest.append(buffer)
+        }
+        
+        // Start the audio engine
+        try? audioEngine.start()
+        print("Recording started")
     }
     
     func moveSphereRight() {
-        
         guard let sphere = sphereEntity else {
             print("Sphere entity not found")
             return
@@ -232,7 +310,6 @@ struct ContentView: View {
         // Animate the sphere to the right over the specified duration
         sphere.move(to: moveRight, relativeTo: sphere.parent, duration: duration, timingFunction: .linear)
     }
-    
 }
 
 #Preview(windowStyle: .automatic) {
