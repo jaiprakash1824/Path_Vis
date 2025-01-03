@@ -13,7 +13,7 @@ import XCAOpenAIClient
 
 @Observable
 class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
-    
+    let client = OpenAIClient(apiKey: "")
     var audioPlayer: AVAudioPlayer!
     var audioRecorder: AVAudioRecorder!
     #if !os(macOS)
@@ -102,6 +102,7 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
                     return
                 }
                 if let prevAudioPower = self.prevAudioPower, prevAudioPower < 0.25 && power < 0.175 {
+                    print("Started using CHAT GPT")
                     self.finishCaptureAudio()
                     return
                 }
@@ -130,10 +131,10 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
             do {
                 self.state = .processingSpeech
                 let prompt = try await client.generateAudioTransciptions(audioData: audioData)
-                
+                print("prompt received : " + prompt)
                 try Task.checkCancellation()
                 let responseText = try await client.promptChatGPT(prompt: prompt)
-                
+                print(prompt + " response received : " + responseText)
                 try Task.checkCancellation()
                 let data = try await client.generateSpeechFrom(input: responseText, voice:
                         .init(rawValue: selectedVoice.rawValue) ?? .alloy)

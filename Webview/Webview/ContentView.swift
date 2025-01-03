@@ -319,6 +319,7 @@ struct ContentView: View {
     
     var startCaptureButton: some View {
         Button(action: {
+            print("Starting startCaptureAudio")
             vm.startCaptureAudio()
         }) {
             Label("", systemImage: "mic.circle")
@@ -327,6 +328,7 @@ struct ContentView: View {
     }
     var cancelRecordingButton: some View {
         Button(action: {
+            print("Starting cancelRecording")
             vm.cancelRecording()
         }) {
             Label("", systemImage: "xmark.circle.fill")
@@ -335,6 +337,7 @@ struct ContentView: View {
     }
     var cancelButton: some View {
         Button(action: {
+            print("Starting cancelProcessingTask")
             vm.cancelProcessingTask()
         }) {
             Label("", systemImage: "stop.circle.fill")
