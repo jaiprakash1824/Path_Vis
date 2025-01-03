@@ -320,7 +320,7 @@ struct ContentView: View {
     var startCaptureButton: some View {
         Button(action: {
             print("Starting startCaptureAudio")
-            vm.startCaptureAudio()
+            vm.startCaptureAudio(capturedImage: self.capturedImage)
         }) {
             Label("", systemImage: "mic.circle")
         }
