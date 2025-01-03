@@ -8,6 +8,13 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>192.168.1.133:5000</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>cse-133725.uta.edu</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		39D7A8F42BCF46C300C07C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39D7A8F32BCF46C300C07C07 /* Assets.xcassets */; };
 		39D7A8F72BCF46C300C07C07 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39D7A8F62BCF46C300C07C07 /* Preview Assets.xcassets */; };
 		39D7A8FF2BCF490700C07C07 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D7A8FE2BCF490700C07C07 /* WebView.swift */; };
+		BDC464692D266B7C002F559E /* XCAOpenAIClient in Frameworks */ = {isa = PBXBuildFile; productRef = BDC464682D266B7C002F559E /* XCAOpenAIClient */; };
 		C51AC3B12BE807FD0082171A /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51AC3B02BE807FD0082171A /* DataStore.swift */; };
 		C51AC3B32BE809A60082171A /* ResultsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51AC3B22BE809A60082171A /* ResultsDisplay.swift */; };
 /* End PBXBuildFile section */
@@ -37,11 +38,16 @@
 		C51AC3B22BE809A60082171A /* ResultsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsDisplay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BDC4646A2D266B98002F559E /* OpenAI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OpenAI; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		39D7A8E32BCF46C200C07C07 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDC464692D266B7C002F559E /* XCAOpenAIClient in Frameworks */,
 				39D7A8EC2BCF46C200C07C07 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +84,7 @@
 		39D7A8E82BCF46C200C07C07 /* Webview */ = {
 			isa = PBXGroup;
 			children = (
+				BDC4646A2D266B98002F559E /* OpenAI */,
 				39D7A8ED2BCF46C200C07C07 /* WebviewApp.swift */,
 				39D7A8EF2BCF46C200C07C07 /* ContentView.swift */,
 				39D7A8F12BCF46C200C07C07 /* ImmersiveView.swift */,
@@ -124,9 +131,13 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				BDC4646A2D266B98002F559E /* OpenAI */,
+			);
 			name = Webview;
 			packageProductDependencies = (
 				39D7A8EB2BCF46C200C07C07 /* RealityKitContent */,
+				BDC464682D266B7C002F559E /* XCAOpenAIClient */,
 			);
 			productName = Webview;
 			productReference = 39D7A8E62BCF46C200C07C07 /* Webview.app */;
@@ -156,6 +167,9 @@
 				Base,
 			);
 			mainGroup = 39D7A8DD2BCF46C200C07C07;
+			packageReferences = (
+				BDC464672D266B7C002F559E /* XCRemoteSwiftPackageReference "XCAOpenAIClient" */,
+			);
 			productRefGroup = 39D7A8E72BCF46C200C07C07 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -398,10 +412,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		BDC464672D266B7C002F559E /* XCRemoteSwiftPackageReference "XCAOpenAIClient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/XCAOpenAIClient";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		39D7A8EB2BCF46C200C07C07 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		BDC464682D266B7C002F559E /* XCAOpenAIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDC464672D266B7C002F559E /* XCRemoteSwiftPackageReference "XCAOpenAIClient" */;
+			productName = XCAOpenAIClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

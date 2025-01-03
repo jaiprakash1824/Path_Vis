@@ -13,13 +13,13 @@ struct thridView: View {
     let noteId: UUID?
     //    @Binding var resultViweURL: String
     @State private var takeScreenshot = false
-    @State private var rootIP = "http://127.0.0.1:5001/"
+    @State private var rootIP = "http://10.240.4.98:5000/"
     
     func getURL(path:String) -> URL {
         //        print(resultViweURL)
         print(rootIP)
-        print(path.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE/", with: ""))
-        let url = URL(string: (rootIP + path.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE/", with: "")))
+        print(path.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE", with: ""))
+        let url = URL(string: (rootIP + path.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE", with: "")))
         return url!
     }
     

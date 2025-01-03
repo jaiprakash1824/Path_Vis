@@ -31,7 +31,7 @@ struct SecondView: View {
                         }
                     }) {
                         HStack {
-                            Text(result.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE/", with: ""))
+                            Text(result.replacingOccurrences(of: "/home/data/nejm_ai/DATABASE", with: ""))
                                 .foregroundColor(.white)
                                 .padding()
                             Spacer()
