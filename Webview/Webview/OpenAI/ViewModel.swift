@@ -10,7 +10,6 @@ import AVFoundation
 import Foundation
 import Observation
 import XCAOpenAIClient
-import UIKit
 
 @Observable
 class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
@@ -72,7 +71,7 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         #endif
     }
     
-    func startCaptureAudio(capturedImage: UIImage) {
+    func startCaptureAudio() {
         resetValues()
         state = .recordingSpeech
         do {
@@ -104,7 +103,7 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
                 }
                 if let prevAudioPower = self.prevAudioPower, prevAudioPower < 0.25 && power < 0.175 {
                     print("Started using CHAT GPT")
-                    self.finishCaptureAudio(capturedImage: capturedImage)
+                    self.finishCaptureAudio()
                     return
                 }
                 self.prevAudioPower = power
@@ -116,11 +115,11 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         }
     }
     
-    func finishCaptureAudio(capturedImage: UIImage) {
+    func finishCaptureAudio() {
         resetValues()
         do {
             let data = try Data(contentsOf: captureURL)
-            processingSpeechTask = processSpeechTask(audioData: data, image: capturedImage)
+            processingSpeechTask = processSpeechTask(audioData: data)
         } catch {
             state = .error(error)
             resetValues()
@@ -149,44 +148,6 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
             }
         }
     }
-    
-    func processSpeechTask(audioData: Data, image: UIImage?) -> Task<Void, Never> {
-        Task { @MainActor [unowned self] in
-            do {
-                self.state = .processingSpeech
-
-                // Generate transcription from audio
-                let prompt = try await client.generateAudioTransciptions(audioData: audioData)
-                print("prompt received: " + prompt)
-                try Task.checkCancellation()
-
-                // Prepare payload
-                var requestPayload: [String: Any] = ["prompt": prompt]
-
-                // Convert UIImage to Data and add it to the payload if available
-                if let image = image, let imageData = image.jpegData(compressionQuality: 0.8) {
-                    requestPayload["image"] = imageData.base64EncodedString() // Convert image to Base64
-                }
-
-                // Send the prompt and image data to ChatGPT
-                let responseText = try await client.promptChatGPTWithImage(payload: requestPayload)
-                print("Response received: " + responseText)
-                try Task.checkCancellation()
-
-                // Generate speech from the response
-                let data = try await client.generateSpeechFrom(input: responseText, voice:
-                        .init(rawValue: selectedVoice.rawValue) ?? .alloy)
-
-                try Task.checkCancellation()
-                try self.playAudio(data: data)
-            } catch {
-                if Task.isCancelled { return }
-                state = .error(error)
-                resetValues()
-            }
-        }
-    }
-
     
     func playAudio(data: Data) throws {
         self.state = .playingSpeech
