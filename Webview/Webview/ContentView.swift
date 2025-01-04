@@ -319,8 +319,9 @@ struct ContentView: View {
     
     var startCaptureButton: some View {
         Button(action: {
+            self.takeScreenshot = true
             print("Starting startCaptureAudio")
-            vm.startCaptureAudio()
+            vm.startCaptureAudio(image: self.capturedImage)
         }) {
             Label("", systemImage: "mic.circle")
         }

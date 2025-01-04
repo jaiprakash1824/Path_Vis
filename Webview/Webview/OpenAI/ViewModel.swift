@@ -10,6 +10,7 @@ import AVFoundation
 import Foundation
 import Observation
 import XCAOpenAIClient
+import UIKit
 
 @Observable
 class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
@@ -71,7 +72,7 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         #endif
     }
     
-    func startCaptureAudio() {
+    func startCaptureAudio(image: UIImage) {
         resetValues()
         state = .recordingSpeech
         do {
@@ -103,7 +104,7 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
                 }
                 if let prevAudioPower = self.prevAudioPower, prevAudioPower < 0.25 && power < 0.175 {
                     print("Started using CHAT GPT")
-                    self.finishCaptureAudio()
+                    self.finishCaptureAudio(image:image)
                     return
                 }
                 self.prevAudioPower = power
@@ -115,14 +116,46 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         }
     }
     
-    func finishCaptureAudio() {
+    func finishCaptureAudio(image: UIImage) {
         resetValues()
         do {
             let data = try Data(contentsOf: captureURL)
-            processingSpeechTask = processSpeechTask(audioData: data)
+            processingSpeechTask = processSpeechTask(audioData: data, image: image)
         } catch {
             state = .error(error)
             resetValues()
+        }
+    }
+    
+    func processSpeechTask(audioData: Data, image: UIImage) -> Task<Void, Never> {
+        Task { @MainActor [unowned self] in
+            do {
+                self.state = .processingSpeech
+                let prompt = try await client.generateAudioTransciptions(audioData: audioData)
+                print("Prompt received: \(prompt)")
+                try Task.checkCancellation()
+                let imageData = image.pngData() // Convert UIImage to Data
+                guard let imageData else {
+                    throw NSError(domain: "ImageConversionError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert UIImage to data."])
+                }
+                let responseText = try await client.promptChatGPT(prompt: prompt, imageData: imageData)
+                print("Response received for prompt '\(prompt)': \(responseText)")
+                try Task.checkCancellation()
+                let voice = .init(rawValue: selectedVoice.rawValue) ?? .alloy
+                let data = try await client.generateSpeechFrom(input: responseText, voice: voice)
+                try Task.checkCancellation()
+                try self.playAudio(data: data)
+            } catch {
+                // Handle errors and cancellation
+                if Task.isCancelled {
+                    print("Task was cancelled.")
+                    self.state = .idle // Optional: add a canceled state
+                } else {
+                    print("Error occurred: \(error.localizedDescription)")
+                    self.state = .error(error)
+                }
+                self.resetValues()
+            }
         }
     }
     
