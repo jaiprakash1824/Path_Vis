@@ -127,6 +127,74 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         }
     }
     
+    // Function to encode UIImage to Base64
+    func encodeUIImageToBase64(image: UIImage) throws -> String {
+        guard let imageData = image.pngData() else {
+            throw NSError(domain: "ImageConversionError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert UIImage to data."])
+        }
+        return imageData.base64EncodedString()
+    }
+    
+    // Function to send a prompt with an image using OpenAI's API
+    func sendPromptWithImage(apiKey: String, prompt: String, image: UIImage) async throws -> String {
+        // Encode the UIImage to Base64
+        let base64Image = try encodeUIImageToBase64(image: image)
+        let imageUrl = "data:image/png;base64,\(base64Image)"
+
+        // Construct the request payload
+        let requestBody: [String: Any] = [
+            "model": "gpt-4-vision-preview",
+            "messages": [
+                [
+                    "role": "user",
+                    "content": prompt
+                ],
+                [
+                    "role": "user",
+                    "content": [
+                        "type": "image_url",
+                        "image_url": [
+                            "url": imageUrl
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+        // Convert the request body to JSON
+        let jsonData = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+
+        // Prepare the HTTP request
+        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.httpBody = jsonData
+
+        // Perform the API call
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        // Check the HTTP response status
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+            throw NSError(domain: "OpenAIAPIError", code: statusCode, userInfo: [NSLocalizedDescriptionKey: "Invalid response from server: \(statusCode)"])
+        }
+
+        // Parse the response JSON
+        let responseObject = try JSONSerialization.jsonObject(with: data, options: [])
+        guard
+            let responseDict = responseObject as? [String: Any],
+            let choices = responseDict["choices"] as? [[String: Any]],
+            let firstChoice = choices.first,
+            let message = firstChoice["message"] as? [String: Any],
+            let content = message["content"] as? String
+        else {
+            throw NSError(domain: "OpenAIAPIError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
+        }
+        return content
+    }
+    
     func processSpeechTask(audioData: Data, image: UIImage) -> Task<Void, Never> {
         Task { @MainActor [unowned self] in
             do {
@@ -138,23 +206,17 @@ class ViewModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
                 guard let imageData else {
                     throw NSError(domain: "ImageConversionError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert UIImage to data."])
                 }
-                let responseText = try await client.promptChatGPT(prompt: prompt, imageData: imageData)
+                let responseText = try await sendPromptWithImage(apiKey: "", prompt: prompt, image: image)
                 print("Response received for prompt '\(prompt)': \(responseText)")
                 try Task.checkCancellation()
-                let voice = .init(rawValue: selectedVoice.rawValue) ?? .alloy
-                let data = try await client.generateSpeechFrom(input: responseText, voice: voice)
+                let speechData = try await client.generateSpeechFrom(input: responseText, voice: self.selectedVoice)
+                
                 try Task.checkCancellation()
-                try self.playAudio(data: data)
+                try self.playAudio(data: speechData)
             } catch {
-                // Handle errors and cancellation
-                if Task.isCancelled {
-                    print("Task was cancelled.")
-                    self.state = .idle // Optional: add a canceled state
-                } else {
-                    print("Error occurred: \(error.localizedDescription)")
-                    self.state = .error(error)
-                }
-                self.resetValues()
+                if Task.isCancelled { return }
+                state = .error(error)
+                resetValues()
             }
         }
     }
