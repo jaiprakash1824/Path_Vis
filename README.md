@@ -9,4 +9,4 @@ Pathologists rely on gigapixel whole-slide images (WSIs) to diagnose diseases li
 ![alt text](./Demo/IEEE_VIS_Fig_1.png)
 
 ### Demo
-https://github.com/jaiprakash1824/SpatialVisVR/blob/main/demo/SpatialVisVR.mp4
+https://github.com/jaiprakash1824/Path_Vis/tree/main/Demo/IEEE_VIS_Demo.MP4
